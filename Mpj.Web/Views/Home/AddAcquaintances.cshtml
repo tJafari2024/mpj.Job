@@ -1,0 +1,159 @@
+﻿@model AcquaintancesDTO
+@using Mpj.DataLayer.DTOs.EmploymentForm
+@{
+    var modelStep = new ModelStepDTO() { Step = 7 };
+
+}
+@section styles
+{
+
+    <style>
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+    </style>
+}
+
+
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">آشنایان</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            <form role="form" asp-area="" asp-controller="Home" asp-action="AddAcquaintances" method="post" class="login-box">
+                <div class="tab-pane  p-4" role="tabpanel" id="step7">
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">آشنای اول (به غیر از اقوام درجه یک)</legend>
+                        <div class="row text-right  p-2 mb-3 ">
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label asp-for="FirstFamiliarFullName" class="required" for="fFirstFamiliarFullName"></label>
+                                    <input type="text" asp-for="FirstFamiliarFullName" onkeypress="return /[آ-ی\s]/i.test(event.key)" id="fFirstFamiliarFullName" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="FirstFamiliarFullName"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="FirstFamiliarJob" class="required" for="fFirstFamiliarJob"></label>
+                                    <input type="text" asp-for="FirstFamiliarJob" onkeypress="return /[آ-ی\s]/i.test(event.key)" id="fFirstFamiliarJob" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="FirstFamiliarJob"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="FirstFamiliarMobile" class="required" for="fFirstFamiliarMobile"></label>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="FirstFamiliarMobile" id="fFirstFamiliarMobile" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="FirstFamiliarMobile"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">آشنای دوم (به غیر از اقوام درجه یک)</legend>
+                        <div class="row text-right  p-2 ">
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label asp-for="SecondFamiliarFullName" class="required" for="fSecondFamiliarFullName"></label>
+                                    <input type="text" asp-for="SecondFamiliarFullName" onkeypress="return /[آ-ی\s]/i.test(event.key)" id="fSecondFamiliarFullName" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="SecondFamiliarFullName"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="SecondFamiliarJob" class="required" for="fSecondFamiliarJob"></label>
+                                    <input type="text" asp-for="SecondFamiliarJob" onkeypress="return /[آ-ی\s]/i.test(event.key)" id="fSecondFamiliarJob" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="SecondFamiliarJob"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="SecondFamiliarMobile" class="required" for="fSecondFamiliarMobile"></label>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="SecondFamiliarMobile" id="fSecondFamiliarMobile" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="SecondFamiliarMobile"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto"> فرد قابل دسترس در صورت ضرورت</legend>
+                        <div class="row text-right  p-2 ">
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label asp-for="AccessiblePersonFullName" class="required" for="fAccessiblePersonFullName"></label>
+                                    <input type="text" asp-for="AccessiblePersonFullName" onkeypress="return /[آ-ی\s]/i.test(event.key)" id="fAccessiblePersonFullName" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="AccessiblePersonFullName"></span>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="AccessiblePersonJob" class="required" for="fAccessiblePersonJob"></label>
+                                    <input type="text" asp-for="AccessiblePersonJob" onkeypress="return /[آ-ی\s]/i.test(event.key)" id="fAccessiblePersonJob" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="AccessiblePersonJob"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <div class="form-group">
+                                    <label asp-for="AccessiblePersonMobile" class="required" for="fAccessiblePersonMobile"></label>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="AccessiblePersonMobile" id="fAccessiblePersonMobile" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="AccessiblePersonMobile"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto"> معرف شاغل در گروه جهان آرا</legend>
+                        <div class="row text-right p-2 ">
+                            <div class="col-md-4 ">
+                                <div class="form-group">
+                                    <label asp-for="RepresentativeFullName" for="fRepresentativeFullName"></label>
+                                    <input type="text" asp-for="RepresentativeFullName" onkeypress="return /[آ-ی\s]/i.test(event.key)" id="fRepresentativeFullName" class="form-control" />
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="RepresentativeJob" for="fRepresentativeJob"></label>
+                                    <input type="text" asp-for="RepresentativeJob" onkeypress="return /[آ-ی\s]/i.test(event.key)" id="fRepresentativeJob" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="RepresentativeMobile" for="fRepresentativeMobile"></label>
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="RepresentativeMobile" id="fRepresentativeMobile" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="RepresentativeMobile"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <ul class="list-inline">
+                  
+                    <li>
+                        <a class="btn btn-dark prev-step" asp-action="AddWorkExperience"> قبلی</a>
+
+                    </li>
+                    <li><button type="submit" class="btn btn-danger next-step">بعدی</button></li>
+
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+

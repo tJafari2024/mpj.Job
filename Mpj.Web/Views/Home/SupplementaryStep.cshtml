@@ -1,0 +1,290 @@
+﻿@model SupplementaryInfoStepDTO
+@using Mpj.DataLayer.DTOs.EmploymentForm
+@using Mpj.DataLayer.Enums
+@{
+    var modelStep = new ModelStepDTO() { Step = 10 };
+    var index = Model.Authorization.SponsorshipCount??0;
+    var cssstyle = "col-md-12";
+    if(Model.Authorization.MaritalStatus==MaritalStatus.Married)
+        cssstyle = "col-md-6";
+}
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/lib/persianDatepicker-master/css/persianDatepicker-default.css">
+    <link href="~/css/select2/select2.css" rel="stylesheet" />
+    <style>
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+        .selectbox {
+            position: relative;
+        }
+
+            .selectbox::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                margin-top: -6px;
+                right: .7rem;
+                width: 0;
+                height: 0;
+                border: solid black;
+                border-width: 0 1px 1px 0;
+                display: inline-block;
+                padding: 3px;
+                transform: rotate(45deg);
+            }
+
+        select {
+            border: 1px solid #EEE;
+            border-radius: .25rem;
+            padding: .5rem 1.5rem .5rem .5rem;
+            display: flex;
+            background-color: white;
+            outline: 0;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .multi-list {
+            float: left;
+            padding-right: 50px;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        fieldset {
+            width: 100%;
+        }
+    </style>
+}
+
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">اطلاعات تکمیلی</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            <form role="form" asp-area="" asp-controller="Home" asp-action="SupplementaryStep" method="post" class="login-box">
+                <div class="tab-pane  p-4" role="tabpanel" id="step10">
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">اطلاعات تکمیلی فرد متقاضی</legend>
+                        <div class="row text-right p-2 mb-4">
+                            <div class="col-md-3 ">
+                                <div class="form-group">
+                                    <input type="hidden" asp-for="InformationDto.MaritalStatus"/>
+                                    <label asp-for="InformationDto.InsuranceNumber" class="required" for="fInsuranceNumber"></label>
+                                    <input type="text" asp-for="InformationDto.InsuranceNumber" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" id="fInsuranceNumber" class="form-control"/>
+                                    <span class="text-danger" asp-validation-for="InformationDto.InsuranceNumber"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="InformationDto.TejaratBankNumber" class="required" for="fTejaratBankNumber"></label>
+                                    <input type="text" asp-for="InformationDto.TejaratBankNumber" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  id="fTejaratBankNumber" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="InformationDto.TejaratBankNumber"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="InformationDto.TejaratSheba" class="required" for="fTejaratSheba"></label>
+                                    <input type="text" asp-for="InformationDto.TejaratSheba" id="fTejaratSheba" oninput="this.value = this.value.replace(/[^0-9][iI]/g, '').replace(/(\..*?)\..*/g, '$1');" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="InformationDto.TejaratSheba"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                @if (Model.InformationDto.MaritalStatus == MaritalStatus.Married)
+                                {
+                                    <div class="form-group">
+                                        <label asp-for="InformationDto.DateOfMarriage" class="required" for="fDateOfMarriage"></label>
+                                        <input type="text" asp-for="InformationDto.DateOfMarriage" id="fDateOfMarriage" class="form-control"/>
+                                        <span class="text-danger" asp-validation-for="InformationDto.DateOfMarriage"></span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </fieldset>
+                    @if(Model.Authorization.MaritalStatus!=MaritalStatus.Single)
+                    {
+                    <div class="row text-right">
+                        @if (Model.Authorization.MaritalStatus == MaritalStatus.Married)
+                        {
+                            <div class="col-md-6">
+                                <fieldset class="border p-2">
+                                    <legend class="w-auto">مشخصات همسر</legend>
+                                    <div class="row text-right p-2 mb-4">
+                                        @for (byte i = 0; i < Model.Authorization.SponsorshipCount; i++)
+                                        {
+                                            <fieldset class="border p-2">
+                                                    <legend class="w-auto"> همسر@(Model.Authorization.SponsorshipCount > 1 ? (i + 1).ToString() :"")</legend>
+                                                @{
+                                                    Model.Selected = i;
+                                                    if (Model.SponsershipDto == null)
+                                                        Model.SponsershipDto = new List<SponsershipDTO>();
+                                                    var item = new SponsershipDTO();
+                                                    Model.SponsershipDto.Add(item);
+                                                    Model.IsChild = false;
+                                                }
+                                                @await Html.PartialAsync("_SponsershipPartial", Model)
+
+                                            </fieldset>
+                                        }
+
+                                    </div>
+                                </fieldset>
+                            </div>
+                        }
+                        @if (Model.Authorization.ChildrenCount > 0)
+                        {
+                            <div class="@cssstyle">
+                                <fieldset class="border p-2">
+                                    <legend class="w-auto">مشخصات فرزند</legend>
+                                    <div class="row text-right p-2 mb-4">
+                                        @for (int i = 0; i < Model.Authorization.ChildrenCount; i++)
+                                        {
+                                            <fieldset class="border p-2">
+                                                    <legend class="w-auto"> فرزند@(Model.Authorization.ChildrenCount > 1 ? (i + 1).ToString() : "")</legend>
+                                                @{
+                                                    Model.Selected = (int)index + i;
+                                                    if (Model.SponsershipDto == null)
+                                                        Model.SponsershipDto = new List<SponsershipDTO>();
+                                                    var item = new SponsershipDTO();
+                                                    Model.SponsershipDto.Add(item);
+                                                    Model.IsChild = true;
+                                                }
+                                                @await Html.PartialAsync("_SponsershipPartial", Model)
+
+                                            </fieldset>
+                                        }
+                                    </div>
+                                </fieldset>
+                            </div>
+                        }
+                    </div>
+                    }
+
+                </div>
+                <ul class="list-inline">
+
+                    <li>
+                        <a class="btn btn-dark prev-step" asp-action="EndStep"> قبلی</a>
+
+                    </li>
+                    <li><button type="submit" class="btn btn-danger next-step">بعدی</button></li>
+
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/js/convertselecttodiv.js"></script>
+    <script src="~/lib/persiandatepicker-master/js/jquery-1.10.1.min.js"></script>
+    <script src="~/lib/persianDatepicker-master/js/persianDatepicker.min.js"></script>
+    <script src="~/js/select2/select2.js"></script>
+
+    <script>
+        $("#e2").select2({
+            placeholder: "انتخاب کنید",
+            allowClear: true
+        });
+
+    </script>
+    <script>
+        CreateDiv("fProvinceId");
+        CreateDiv("fProvinceOfIssueId");
+        CreateDiv("fMaritalStatus");
+        CreateDiv("fGender");
+        $('#fInsuranceNumber').focus();
+        $(function () {
+                    
+            $("input[id^='fBrithDate']").persianDatepicker(
+                {
+                    alwaysShow: false,
+                    cellWidth: 46,
+                    cellHeight: 40,
+                    fontSize: 18
+                }
+            );
+
+        });
+        $(function () {
+
+            $("#fDateOfMarriage").persianDatepicker(
+                {
+                    alwaysShow: false,
+                    cellWidth: 46,
+                    cellHeight: 40,
+                    fontSize: 18
+                }
+            );
+
+        });
+        function ChangeState(i) {
+            let ItemName = $(i).attr('class');
+
+            let DropdownItem = ItemName.split(' ')[1];
+            let selectedItem = document.getElementsByClassName("same-as-selected " + DropdownItem);
+            let value = $(selectedItem).attr('data-val');
+
+            $.ajax({
+                url: "/Home/GetCity/" + value,
+                method: "Post",
+            }).done(function (response) {
+
+                switch (DropdownItem) {
+                    case 'fProvinceId':
+
+                        PopulateDropDown("#fCityId", response.cities);
+                        break;
+                    case 'fProvinceOfIssueId':
+                        PopulateDropDown("#fCityOfIssueCityId", response.cities);
+                        break;
+                    case 'fResidenceProvinceId':
+                        PopulateDropDown("#fResidenceCityId", response.cities);
+                        break;
+
+
+                }
+            }).fail(function () {
+            });
+        }
+        // var childDivs = document.getElementsByClassName('select-items fMaritalStatus');//.getElementsByTagName('div');
+
+        // for (i = 0; i < childDivs[0].getElementsByTagName('div').length; i++) {
+        //     var ss = childDivs[0].getElementsByTagName('div');
+        //     for (j = 0; j < ss.length; j++) {
+
+        //         ss[j].classList.remove("same-as-selected");
+        //         if (j == 1)
+        //             ss[j].classList.add("same-as-selected");
+        //     }
+        // }
+      
+        // for (i = 0; i < childDivs.length; i++) {
+        //     //var childDiv = childDivs[i];
+        //     alert(i);
+        // }
+        // y = document.getElementsByClassName("select-items fMaritalStatus");
+        // yl = y.length;
+       
+        // for (k = 0; k < yl; k++) {
+        //     alert(y[k].className);
+        // }
+        // for (k = 0; k < yl; k++) {
+        // }
+        
+    </script>
+}
+
+
+

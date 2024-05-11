@@ -1,0 +1,421 @@
+﻿@model Mpj.DataLayer.DTOs.EmploymentForm.WorkExperienceDTO
+@using Mpj.DataLayer.DTOs.EmploymentForm
+@using Mpj.DataLayer.InMemoryCache
+@inject IWorkExperienceMemory _WorkExperienceMemory;
+@inject IAuthorizationMemoryCache _AuthorizationMemory;
+
+@{
+    var modelStep = new ModelStepDTO() { Step = 6 };
+    var workExperience = _WorkExperienceMemory.Get("SaveWork");
+    var workExperienceWithoutItemRemoved = new List<WorkExperienceRecords>();
+    if(workExperience!=null)
+        workExperienceWithoutItemRemoved = workExperience.Where(a => a.IsDelete == false).ToList();
+    int rowNumber = 1;
+    var authInfo = _AuthorizationMemory.Get("SaveAuthorization");
+    List<SelectListItem> YearList = new List<SelectListItem>();
+    @for (int j = 1300; j <= 1500; j++)
+    {
+        SelectListItem item = new SelectListItem();
+        item.Value = j.ToString();
+        item.Text = j.ToString();
+        YearList.Add(item);
+    }
+}
+@section styles
+{
+
+    <style>
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+        .table td {
+            word-break: break-all;
+            text-align: center;
+        }
+    </style>
+}
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">سوابق شغلی</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            <div class="tab-pane border border-1 p-4" role="tabpanel" id="step6">
+                @if (workExperienceWithoutItemRemoved != null && workExperienceWithoutItemRemoved.Any())
+                {
+                    <table class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th scope="col">ردیف</th>
+                                <th scope="col">عنوان شغل</th>
+                                <th scope="col">استان محل کار</th>
+                                <th scope="col">شهر محل کار</th>
+                                <th scope="col">نام شرکت</th>
+                                <th scope="col">سال شروع به کار</th>
+                                <th scope="col">سال ترک کار</th>
+                                <th scope="col">علت ترک کار</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var wrk in workExperienceWithoutItemRemoved)
+                            {
+                                <tr id="ajax-url-item-@wrk.Id">
+
+                                    <td>
+                                        @rowNumber
+                                    </td>
+                                    <th>
+                                        @wrk.JobTitle
+
+                                    </th>
+                                    <td>
+                                        @wrk.ProvinceOfJob
+                                    </td>
+
+                                    <td>
+                                        @wrk.CityOfPlaceOfJob
+                                    </td>
+                                    <td>
+                                        @wrk.CompanyName
+                                    </td>
+                                    <td>
+                                        @wrk.YearOfStartingJob
+                                    </td>
+                                    <td>
+                                        @wrk.YearOfEndingJob
+                                    </td>
+                                    <td>
+                                        @wrk.ReasonForLeavingWork
+                                    </td>
+                                    <td>
+                                        <a data-toggle="modal" class="btn btn-primary text-white fa fa-edit" data-target="#EditWorkingRecordModal" onclick="GetDetails('@wrk.Id') " title="ویرایش"></a>
+                                        <a asp-area="" asp-controller="Home" asp-action="DeleteWorkExperienceRecord" asp-route-Id="@wrk.Id" ajax-url-allremove="0" ajax-url-button="@wrk.Id" title="حذف" class="btn btn-danger btn-sm icon-only white"><i class="fa fa-times "></i></a>
+
+                                    </td>
+
+                                </tr>
+                                rowNumber++;
+                            }
+
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="row"></div>
+                    <partial name="_NoItemFound" />
+                }
+                @if (!(bool)authInfo.IsConfirmHumanResourceUnit)
+                {
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#JobModal">
+                        افزودن سابقه شغلی
+                    </button>
+                }
+                <form role="form" asp-area="" asp-controller="Home" asp-action="AddWorkExperience" method="post" class="login-box">
+
+                    <div class="modal fade" id="JobModal" tabindex="-1" aria-labelledby="JobModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">ثبت سوابق شغلی</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form" asp-area="" asp-controller="Home" asp-action="AddWorkExperience" method="post" class="login-box">
+                                        <div class="row text-right">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="JobTitle" for="fJobTitle"></label>
+                                                    <input type="text" asp-for="JobTitle" id="fJobTitle" class="form-control" />
+                                                    <span class="text-danger" asp-validation-for="JobTitle"></span>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="ProvinceOfJobId" for="fProvinceOfJobId"></label>
+                                                    <select class="form-control" asp-for="ProvinceOfJobId" id="fProvinceOfJobId" asp-items="@Model.CascadingDto.States"></select>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="CityOfJobId" for="fCityOfJobId"></label>
+                                                    <select class="form-control" asp-for="CityOfJobId" id="fCityOfJobId" asp-items="@Model.CascadingDto.Cities"></select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-right">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="CompanyName" for="fCompanyName"></label>
+                                                    <input type="text" asp-for="CompanyName" id="fCompanyName" class="form-control" />
+                                                    <span class="text-danger" asp-validation-for="CompanyName"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="YearOfStartingJob" for="fYearOfStartingJob"></label>
+                                                    <select class="form-control" asp-for="YearOfStartingJob" id="fYearOfStartingJob" asp-items="@YearList"></select>
+                                                    <span class="text-danger" asp-validation-for="YearOfStartingJob"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="YearOfEndingJob" for="fYearOfEndingJob"></label>
+                                                    <select class="form-control" asp-for="YearOfEndingJob" id="fYearOfEndingJob" asp-items="@YearList"></select>
+                                                    <span class="text-danger" asp-validation-for="YearOfEndingJob"></span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row text-right">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label asp-for="ReasonForLeavingWork" for="fReasonForLeavingWork"></label>
+                                                    <textarea type="text" asp-for="ReasonForLeavingWork" id="fReasonForLeavingWork" class="form-control"></textarea>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">بستن</button>
+                                    <button type="submit" class="btn btn-primary">ثبت سابقه شغلی</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <form role="form" asp-area="" asp-controller="Home" asp-action="EditworkExperienceRecord" method="post" class="login-box">
+                    <input type="hidden" id="fid" asp-for="Id" />
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="EditWorkingRecordModal" tabindex="-1" aria-labelledby="editexampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editexampleModalLabel">ثبت سوابق شغلی</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row text-right">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="JobTitle" for="fJobTitle"></label>
+                                                <input type="text" asp-for="JobTitle" id="fJobTitleedit" class="form-control" />
+                                                <span class="text-danger" asp-validation-for="JobTitle"></span>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="ProvinceOfJobId" for="fProvinceOfJobId"></label>
+                                                <select class="form-control" asp-for="ProvinceOfJobId" id="fProvinceOfJobIdedit" asp-items="@Model.CascadingDto.States"></select>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="CityOfJobId" for="fCityOfJobId"></label>
+                                                <select class="form-control" asp-for="CityOfJobId" id="fCityOfJobIdedit" asp-items="@Model.CascadingDto.Cities"></select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-right">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="CompanyName" for="fCompanyName"></label>
+                                                <input type="text" asp-for="CompanyName" id="fCompanyNameedit" class="form-control" />
+                                                <span class="text-danger" asp-validation-for="CompanyName"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="YearOfStartingJob" for="fYearOfStartingJob"></label>
+                                                <select class="form-control" asp-for="YearOfStartingJob" id="fYearOfStartingJobedit" asp-items="@YearList"></select>
+                                                <span class="text-danger" asp-validation-for="YearOfStartingJob"></span>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="YearOfEndingJob" for="fYearOfEndingJob"></label>
+                                                <select class="form-control" asp-for="YearOfEndingJob" id="fYearOfEndingJobedit" asp-items="@YearList"></select>
+                                                <span class="text-danger" asp-validation-for="YearOfEndingJob"></span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-right">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label asp-for="ReasonForLeavingWork" for="fReasonForLeavingWork"></label>
+                                                <textarea type="text" asp-for="ReasonForLeavingWork" id="fReasonForLeavingWorkedit" class="form-control"></textarea>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">بستن</button>
+                                    <button type="submit" class="btn btn-primary">ویرایش سابقه شغلی</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </form>
+                <ul class="list-inline">
+                   
+                    <li>
+                        <a class="btn btn-dark prev-step" asp-action="AddEducationalRecord"> قبلی</a>
+
+                    </li>
+                    <li>
+                        <form role="form" asp-area="" asp-controller="Home" asp-action="AddWorkExperienceFinal" method="post" class="login-box">
+                            <button type="submit" class="btn btn-danger next-step">بعدی</button>
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+
+    <script type="text/javascript">
+        $(function () {
+            $("select").each(function () {
+                if ($(this).find("option").length <= 1) {
+                    $(this).attr("disabled", "disabled");
+                }
+            });
+
+            $("select").change(function () {
+                var value = 0;
+                let ItemName = $(this).attr('id');
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                $.ajax({
+                    url: "/Home/GetCity/" + value,
+                    method: "Post",
+                }).done(function (response) {
+
+                    switch (ItemName) {
+                        case 'fProvinceOfJobId':
+                            PopulateDropDown("#fCityOfJobId", response.cities);
+                            break;
+                        case 'fProvinceOfJobIdedit':
+                            PopulateDropDown("#fCityOfJobIdedit", response.cities);
+                            break;
+
+
+                    }
+
+
+
+                }).fail(function () {
+                });
+            });
+            function DisableDropDown(dropDownId) {
+                $(dropDownId).attr("disabled", "disabled");
+                $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+            }
+
+
+
+        });
+        function PopulateDropDown(dropDownId, list) {
+            $(dropDownId).empty();
+            if (list != null && list.length > 0) {
+                $.each(list, function (index, element) {
+                    $(dropDownId).append('<option  value="' + element.value + '">' + element.text + '</option>');
+
+                });
+
+            }
+        }
+    </script>
+    <script>
+        function GetDetails(id) {
+
+            var postData = {
+                'Id': id,
+            };
+            $.ajax({
+                dataType: 'json',
+                type: "GET",
+                url: "/Home/EditWorkExperienceRecord",
+                data: postData,
+                success: function (res) {
+                    var obj = res["cascadingDto"];
+                    console.log(res)
+
+                    document.getElementById("fid").value = res["id"]
+                    document.getElementById("fJobTitleedit").value = res["jobTitle"]
+                    document.getElementById("fCompanyNameedit").value = res["companyName"]
+                    document.getElementById("fReasonForLeavingWorkedit").value = res["reasonForLeavingWork"]
+
+
+                    PopulateDropDown("#fCityOfJobIdedit", obj["cities"]);
+
+                    setSelectedValueByVal(document.getElementById("fProvinceOfJobIdedit"), res["provinceOfJobId"]);
+                    setSelectedValueByVal(document.getElementById("fCityOfJobIdedit"), res["cityOfJobId"]);
+                    setSelectedValue(document.getElementById("fYearOfStartingJobedit"), res["yearOfStartingJob"]);
+                    setSelectedValue(document.getElementById("fYearOfEndingJobedit"), res["yearOfEndingJob"]);
+
+                },
+
+
+            });
+        }
+        function setSelectedValue(selectObj, valueToSet) {
+            for (var i = 0; i < selectObj.options.length; i++) {
+                if (selectObj.options[i].text == valueToSet) {
+                    selectObj.options[i].selected = true;
+                    return;
+                }
+            }
+        }
+        function setSelectedValueByVal(selectObj, valueToSet) {
+
+            for (var i = 0; i < selectObj.options.length; i++) {
+                if (selectObj.options[i].value == valueToSet) {
+                    selectObj.options[i].selected = true;
+                    return;
+                }
+            }
+        }
+
+    </script>
+}

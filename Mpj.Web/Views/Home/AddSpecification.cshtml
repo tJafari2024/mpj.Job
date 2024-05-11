@@ -1,0 +1,1039 @@
+﻿@using Mpj.DataLayer.DTOs.EmploymentForm
+@using Mpj.DataLayer.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Mpj.DataLayer.DTOs.EmploymentForm.SpecificationsDTO
+@{
+    var modelStep = new ModelStepDTO() { Step = 4 };
+    var DrivingLicences = Html.GetEnumSelectList<DrivingLicences>();
+    var lstRegin = Html.GetEnumSelectList<Sect>();
+    List<SelectListItem> MonthList = new List<SelectListItem>();
+    @for (int i = 1; i <= 12; i++)
+    {
+        SelectListItem item = new SelectListItem();
+        item.Value = i.ToString();
+        item.Text = i.ToString();
+        MonthList.Add(item);
+    }
+    List<SelectListItem> YearList = new List<SelectListItem>();
+    @for (int j = 0; j <= 50; j++)
+    {
+        SelectListItem item = new SelectListItem();
+        item.Value = j.ToString();
+        item.Text = j.ToString();
+        YearList.Add(item);
+    }
+    List<SelectListItem> InsuranceHistoryYear = new List<SelectListItem>();
+    SelectListItem ditem = new SelectListItem();
+    ditem.Value = "0";
+    ditem.Text = "انتخاب کنید";
+    InsuranceHistoryYear.Add(ditem);
+    @for (int j = 1; j <= 30; j++)
+    {
+        SelectListItem item = new SelectListItem();
+        item.Value = j.ToString();
+        item.Text = j.ToString();
+        InsuranceHistoryYear.Add(item);
+    }
+}
+@section styles
+{
+
+    <link rel="stylesheet" type="text/css" href="~/lib/persianDatepicker-master/css/persianDatepicker-default.css">
+    <link href="~/css/select2/select2.css" rel="stylesheet" />
+
+    <style>
+        .select2-search--inline {
+            display: contents; /*this will make the container disappear, making the child the one who sets the width of the element*/
+        }
+
+        .select2-search__field:placeholder-shown {
+            width: 100% !important; /*makes the placeholder to be 100% of the width while there are no options selected*/
+        }
+
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+        .selectbox {
+            position: relative;
+        }
+
+            .selectbox::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                margin-top: -6px;
+                right: .7rem;
+                width: 0;
+                height: 0;
+                border: solid black;
+                border-width: 0 1px 1px 0;
+                display: inline-block;
+                padding: 3px;
+                transform: rotate(45deg);
+            }
+
+        select {
+            border: 1px solid #EEE;
+            border-radius: .25rem;
+            padding: .5rem 1.5rem .5rem .5rem;
+            display: flex;
+            background-color: white;
+            outline: 0;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .multi-list {
+            float: left;
+            padding-right: 50px;
+        }
+
+        .clear {
+            clear: both;
+        }
+    </style>
+}
+
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">مشخصات</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            <form id="form1" role="form" asp-area="" asp-controller="Home" asp-action="AddSpecification" method="post" class="login-box">
+                <div class="tab-pane border border-1 p-4" role="tabpanel" id="step4">
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">مشخصات شناسنامه‌ای</legend>
+
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="required" for="fName"></label>
+                                    <input type="text" onkeypress="return /[آ-ی\s]/i.test(event.key)" asp-for="Name" id="fName" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="Name"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Family" class="required" class="required" for="fFamily"></label>
+                                    <input type="text" onkeypress="return /[آ-ی\s]/i.test(event.key)" asp-for="Family" id="fFamily" class="form-control" />
+                                    <span class="text-danger" asp-validation-for="Family"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+
+                                    <label asp-for="Gender" class="required" for="fGender"></label>
+                                    <div class="custom-select-general">
+                                        <select id="fGender" asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()"> </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="BirthCertificateId" class="required" for="fBirthCertificateId"> </label>
+                                    <input type="text" maxlength="10" class="form-control" id="fBirthCertificateId" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="BirthCertificateId">
+                                    <span class="text-danger" asp-validation-for="BirthCertificateId"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Religion" class="required" for="fReligion"></label>
+                                    <div id="Religion" class="custom-select2 fReligion" onclick="ChangeReligion(this)">
+                                        <select id="fReligion" asp-for="Religion" asp-items="Html.GetEnumSelectList<Religion>()"> </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Sect" class="required" for="fSect"></label>
+                                    <div class="custom-select2 fSect">
+                                        <select id="fSect" asp-for="Sect" asp-items="Html.GetEnumSelectList<Sect>()"> </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="FatherName" class="required" for="fFatherName"></label>
+                                    <input type="text" onkeypress="return /[آ-ی\s]/i.test(event.key)" class="form-control" id="fFatherName" asp-for="FatherName">
+                                    <span class="text-danger" asp-validation-for="FatherName"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="JobFather" class="required" for="fJobFather"></label>
+                                    <input type="text" onkeypress="return /[آ-ی\s]/i.test(event.key)" class="form-control" id="fJobFather" asp-for="JobFather">
+                                    <span class="text-danger" asp-validation-for="JobFather"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="MaritalStatus" class="required" for="fMaritalStatus"></label>
+                                    <div id="MaritalStatus" class="custom-select2 fMaritalStatus" onclick="ChangeMaritalStatus(this)">
+                                        <select id="fMaritalStatus" asp-for="MaritalStatus" asp-items="Html.GetEnumSelectList<MaritalStatus>()"> </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="BrithDate" class="required" for="fBrithDate"></label>
+                                    <input type="text" class="form-control" id="fBrithDate" asp-for="BrithDate">
+                                    <span class="text-danger" asp-validation-for="BrithDate"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ProvinceId" class="required" for="fProvinceId"></label>
+                                    <div id="ProvinceId" class="custom-select2 fProvinceId" onclick="ChangeState(this)">
+                                        <select asp-for="ProvinceId" id="fProvinceId" asp-items="@Model.CascadingDto.States"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CityId" class="required" for="fCityId"></label>
+                                    <div id="CityId" class="custom-select2 fCityId">
+                                        <select id="fCityId" asp-for="CityId" asp-items="@Model.CascadingDto.Cities">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row text-right">
+                            <div class="col-md-4 p-top-36">
+                                <div class="form-group">
+                                    <label asp-for="ProvinceOfIssueId" class="required" for="fProvinceOfIssueId"></label>
+                                    <div class="custom-select2 fProvinceOfIssueId" onclick="ChangeState(this)">
+                                        <select class="form-control" asp-for="ProvinceOfIssueId" id="fProvinceOfIssueId" asp-items="@Model.CascadingDto.States"></select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 p-top-36">
+                                <div class="form-group">
+                                    <label asp-for="CityOfIssueCityId" class="required" for="fCityOfIssueCityId"></label>
+                                    <div id="CityOfIssueCityId" class="custom-select2 fCityOfIssueCityId">
+                                        <select asp-for="CityOfIssueCityId" id="fCityOfIssueCityId" asp-items="@Model.CascadingDto.CityOfIssue"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <fieldset class="row border p-2">
+                                    <legend class="w-auto">سریال شناسنامه</legend>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label asp-for="SerialBirthCertificateSection3" class="required" for="fSerialBirthCertificateSection3"></label>
+                                            <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" id="fSerialBirthCertificateSection3" maxlength="6" asp-for="SerialBirthCertificateSection3">
+                                            <span class="text-danger" asp-validation-for="SerialBirthCertificateSection3"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="SerialBirthCertificateSection2" class="required" for="fSerialBirthCertificateSection2"></label>
+                                            <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" id="fSerialBirthCertificateSection2" maxlength="2" asp-for="SerialBirthCertificateSection2">
+                                            <span class="text-danger" asp-validation-for="SerialBirthCertificateSection2"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label asp-for="SerialBirthCertificateSection1" class="required" for="fSerialBirthCertificateSection1"></label>
+                                            <input type="text" onkeypress="return /[آ-ی\s]/i.test(event.key)" class="form-control" id="fSerialBirthCertificateSection1" maxlength="1" asp-for="SerialBirthCertificateSection1">
+                                            <span class="text-danger" asp-validation-for="SerialBirthCertificateSection1"></span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">مشخصات نظام وظیفه</legend>
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="MilitaryServiceStatus" class="required" for="fMilitaryServiceStatus"></label>
+                                    <div class="custom-select2 fMilitaryServiceStatus" onclick="fMilitaryServiceStatusChange(this)">
+                                        <select class="form-control" id="fMilitaryServiceStatus" asp-for="MilitaryServiceStatus" asp-items="Html.GetEnumSelectList<MilitaryServiceStatus>()"> </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div id="divPlaceOfServiceOrgan" class="form-group">
+                                    <label asp-for="PlaceOfServiceOrgan" class="required" for="fPlaceOfServiceOrgan"></label>
+                                    <input class="form-control" asp-for="PlaceOfServiceOrgan" type="text" id="fPlaceOfServiceOrgan">
+                                    <span class="text-danger" asp-validation-for="PlaceOfServiceOrgan"></span>
+                                </div>
+                                <div id="divExemptionReason" class="form-group hide">
+                                    <label asp-for="ExemptionReason" class="required" for="fExemptionReason"></label>
+                                    <input class="form-control" asp-for="ExemptionReason" type="text" id="fExemptionReason">
+                                    <span class="text-danger" asp-validation-for="ExemptionReason"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div id="divExemptionCode" class="form-group hide">
+                                    <label asp-for="ExemptionCode" class="required" for="fExemptionCode"></label>
+                                    <input class="form-control" asp-for="ExemptionCode" type="text" id="fExemptionCode">
+                                    <span class="text-danger" asp-validation-for="ExemptionCode"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="MilitaryStartDate" for="fMilitaryStartDate"></label>
+                                    <input class="form-control" id="fMilitaryStartDate" asp-for="MilitaryStartDate" type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="CardReceiptDate" for="fCardReceiptDate"></label>
+                                    <input class="form-control" type="text" asp-for="CardReceiptDate" id="fCardReceiptDate">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">مشخصات جسمانی</legend>
+                        <div class="row text-right">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Height" class="required" class="required" for="fHeight"> </label>
+                                    <input type="text" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="Height" id="fHeight" class="form-control">
+                                    <span class="text-danger" asp-validation-for="Height"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Weight" class="required" for="fWeight"></label>
+                                    <input class="form-control" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="Weight" id="fWeight" type="text">
+                                    <span class="text-danger" asp-validation-for="Weight"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" asp-for="UseOfGlasses" onclick="fUseOfGlasseschange(this)" class="custom-control-input" id="fUseOfGlasses">
+                                        <label class="custom-control-label" for="fUseOfGlasses">آیا از عینک استفاده میکنید؟</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div id="divTotalNumberOfEyes" class="form-group hide">
+                                    <label asp-for="TotalNumberOfEyes" class="required" for="fTotalNumberOfEyes"></label>
+                                    <input class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="TotalNumberOfEyes" type="text" id="fTotalNumberOfEyes">
+                                    <span class="text-danger" asp-validation-for="TotalNumberOfEyes"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="PhysicalCondition" for="fPhysicalCondition"></label>
+                                    <div class="custom-select2 fPhysicalCondition" onclick="fPhysicalConditionChange(this)">
+                                        <select class="form-control" id="fPhysicalCondition" asp-for="PhysicalCondition" asp-items="Html.GetEnumSelectList<PhysicalCondition>()"> </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div id="divfDescriptionOfPhysicalCondition" class="form-group hide">
+                                    <label asp-for="DescriptionOfPhysicalCondition" class="required" for="fDescriptionOfPhysicalCondition"> </label>
+                                    <textarea class="form-control" onkeypress="return /[آ-ی\s]/i.test(event.key)" asp-for="DescriptionOfPhysicalCondition" id="fDescriptionOfPhysicalCondition"></textarea>
+                                    <span class="text-danger" asp-validation-for="DescriptionOfPhysicalCondition"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="row text-right">
+                        <div class="col-md-6">
+                            <fieldset class="border p-2">
+                                <legend class="w-auto">سابقه بیمه</legend>
+                                <div class="row text-right">
+                                    <div class="col-md-6">
+                                        @* <div class="form-group">
+                                        <label for="e3" asp-for="InsuranceHistoryYear" class="required"></label>
+                                        <select id="e3" multiple="false" asp-for="InsuranceHistoryYear" style="width: 100%;" tabindex="-1" class="form-control" aria-hidden="true">
+
+
+                                        @foreach (var att in @InsuranceHistoryYear)
+                                        {
+                                        <option value="@att.Value">@att.Text</option>
+                                        }
+
+
+                                        </select>
+                                        <span class="text-danger" asp-validation-for="InsuranceHistoryYear"></span>
+                                        </div> *@
+                                        @* <div class="form-group">
+                                        <label asp-for="InsuranceHistoryYear" for="fInsuranceHistoryYear"></label>
+                                        <div class="custom-select-general">
+                                        <select id="fInsuranceHistoryYear" data-val-required="انتخاب کنید " data-val="true" data-validation="true" asp-for="InsuranceHistoryYear" class="form-control" asp-items="@InsuranceHistoryYear">
+                                        <option selected="selected" value=""> انتخاب کنید</option>
+                                        </select>
+
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="InsuranceHistoryYear"></span> <span class="text-danger" asp-validation-for="InsuranceHistoryYear"></span>
+                                        </div> *@
+                                        @* <select class="select2-select" multiple="multiple">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </select> *@
+                                         <div class="form-group">
+                                        <label asp-for="InsuranceHistoryYear" class="required" for="fInsuranceHistoryYear"></label>
+
+                                        <div class="custom-select-general">
+                                        <select class="form-control" asp-for="InsuranceHistoryYear" id="fInsuranceHistoryYear" asp-items="@InsuranceHistoryYear">
+                                        
+                                        </select>
+
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="InsuranceHistoryYear"></span>
+                                        </div>
+                                        @* <div class="form-group">
+                                        <label for="fInsuranceHistoryYear" asp-for="InsuranceHistoryYear" class="required"></label>
+                                        <select id="fInsuranceHistoryYear"  asp-for="InsuranceHistoryYear" style="width: 100%;" tabindex="-1" class="form-control" aria-hidden="true">
+
+
+                                        @foreach (var att in @InsuranceHistoryYear)
+                                        {
+                                        <option value="@att.Value">@att.Text</option>
+                                        }
+
+
+                                        </select>
+                                        <span class="text-danger" asp-validation-for="InsuranceHistoryYear"></span>
+                                        </div> *@
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="InsuranceHistoryMonth" for="fInsuranceHistoryMonth"></label>
+                                            <div class="custom-select-general">
+                                                <select class="form-control" asp-for="InsuranceHistoryMonth" id="fInsuranceHistoryMonth" asp-items="@MonthList"></select>
+                                                <span class="text-danger" asp-validation-for="InsuranceHistoryMonth"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset class="border p-2">
+                                <legend class="w-auto">اشتغال در گروه</legend>
+                                <div class="row text-right">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label asp-for="HasEmploymentHistory" class="required" for="fHasEmploymentHistory"></label>
+                                            <div class="custom-select2 fHasEmploymentHistory" onclick="fHasEmploymentHistorychange(this)">
+                                                <select class="form-control" id="fHasEmploymentHistory" asp-for="HasEmploymentHistory" asp-items="Html.GetEnumSelectList<YesORNo>()"> </select>
+                                            </div>
+                                        </div>
+                                        <div id="divEmploymentHistory" class="row text-right hide">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label asp-for="PlaceOfWork" class="required" for="fPlaceOfWork"></label>
+                                                    <input class="form-control" type="text" asp-for="PlaceOfWork" id="fPlaceOfWork">
+                                                    <span class="text-danger" asp-validation-for="PlaceOfWork"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label asp-for="PersonalCode" class="required" for="fPersonalCode"></label>
+                                                    <input class="form-control" type="text" asp-for="PersonalCode" id="fPersonalCode">
+                                                    <span class="text-danger" asp-validation-for="PersonalCode"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto"></legend>
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="e2" asp-for="DrivingLicences" class="required"></label>
+                                    <select id="e2" multiple="multiple" asp-for="DrivingLicences" style="width: 100%;" tabindex="-1" class="form-control select2-select" aria-hidden="true">
+
+
+                                        @foreach (var att in DrivingLicences)
+                                        {
+                                            <option value="@att.Value">@att.Text</option>
+                                        }
+
+
+                                    </select>
+                                    <span class="text-danger" asp-validation-for="DrivingLicences"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="EmploymentStatus" class="required" for="fEmploymentStatus"></label>
+                                    <div class="custom-select-general">
+                                        <select class="form-control" id="fEmploymentStatus" asp-for="EmploymentStatus" asp-items="Html.GetEnumSelectList<EmploymentStatus>()"> </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ProposedSalary" class="required" for="fProposedSalary"></label>
+                                    <input class="form-control" onkeyup="javascript: this.value = ToRial(this.value)" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" type="text" asp-for="ProposedSalary" id="fProposedSalary">
+                                    <span class="text-danger" asp-validation-for="ProposedSalary"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">آدرس محل سکونت</legend>
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ResidenceProvinceId" for="fResidenceProvinceId"></label>
+                                    <div class="custom-select2 fResidenceProvinceId" onclick="ChangeState(this)">
+                                        <select class="form-control" asp-for="ResidenceProvinceId" id="fResidenceProvinceId" asp-items="@Model.CascadingDto.States"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ResidenceCityId" for="fResidenceCityId"></label>
+                                    <div id="ResidenceCityId" class="custom-select2 fResidenceCityId">
+                                        <select asp-for="ResidenceCityId" id="fResidenceCityId" asp-items="@Model.CascadingDto.ResidenceCity"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ResidencePostalCode" class="required" class="required" for="fResidencePostalCode"></label>
+                                    <input class="form-control" type="text" data-mask="99999-99999" asp-for="ResidencePostalCode" id="fResidencePostalCode">
+                                    <span class="text-danger" asp-validation-for="ResidencePostalCode"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Address" class="required" for="fAddress"></label>
+                                    <textarea class="form-control" onkeypress="return /[0-9آ-ی\s]/i.test(event.key)" type="text" asp-for="Address" id="fAddress"></textarea>
+                                    <span class="text-danger" asp-validation-for="Address"></span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="ResidencePeriodByYear" class="required" for="fResidencePeriodByYear"></label>
+                                    <div class="custom-select-general">
+                                        <select class="form-control" asp-for="ResidencePeriodByYear" id="fResidencePeriodByYear" asp-items="@YearList"></select>
+                                    </div>
+                                    <span class="text-danger" asp-validation-for="ResidencePeriodByYear"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="ResidencePeriodByMonth" class="required" for="fResidencePeriodByMonth"></label>
+                                    <div class="custom-select-general">
+                                        <select class="form-control" asp-for="ResidencePeriodByMonth" id="fResidencePeriodByMonth" asp-items="@MonthList"></select>
+                                    </div>
+                                    <span class="text-danger" asp-validation-for="ResidencePeriodByMonth"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ResidencePhone" class="required" for="fResidencePhone"></label>
+                                    <input class="form-control" type="text" data-mask="999-99999999" asp-for="ResidencePhone" id="fResidencePhone">
+                                    <span class="text-danger" asp-validation-for="ResidencePhone"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset id="fieldsetTakafol" class="border p-2 hide">
+                        <legend class="w-auto">تحت تکفل</legend>
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="ChildrenCount" for="fChildrenCount"></label>
+                                    <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" id="fChildrenCount" asp-for="ChildrenCount">
+                                    <span class="text-danger" asp-validation-for="ChildrenCount"></span>
+                                </div>
+                            </div>
+                            <div id="divSpouseCount" class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="SpouseCount" for="fSpouseCount"></label>
+                                    <input type="text" onkeyup="SpouseCountCreate()" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="SpouseCount" id="fSpouseCount">
+                                    <span class="text-danger" asp-validation-for="SpouseCount"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="status" class="hide">
+
+                            @await Html.PartialAsync("_SpousePartial", Model)
+
+                        </div>
+                        <div id="content">
+                        </div>
+                    </fieldset>
+                    <ul class="list-inline">
+                        <li>
+                            <a class="btn btn-dark prev-step" asp-action="AddPersonalImage"> قبلی</a>
+                        </li>
+                        <li><button type="submit" class="btn btn-danger next-step">بعدی</button></li>
+
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/js/convertselecttodiv.js"></script>
+    <script src="~/lib/persiandatepicker-master/js/jquery-1.10.1.min.js"></script>
+    <script src="~/lib/persianDatepicker-master/js/persianDatepicker.min.js"></script>
+    <script>
+
+        CreateDiv("fProvinceId");
+        CreateDiv("fCityId");
+        CreateDiv("fProvinceOfIssueId");
+        CreateDiv("fCityOfIssueCityId");
+        CreateDiv("fResidenceProvinceId");
+        CreateDiv("fResidenceCityId");
+        CreateDiv("fReligion");
+        CreateDiv("fSect");
+        // CreateDiv("fSponsorshipStatus");
+        CreateDiv("fMilitaryServiceStatus");
+        CreateDiv("fPhysicalCondition");
+        CreateDiv("fHasEmploymentHistory");
+        CreateDiv("fMaritalStatus");
+        // var once = function () {
+        //     if (once.done) return;
+
+
+
+        //     once.done = true;
+        // };
+
+        // once(); // Logs "Doing this once!"
+        // once();
+
+        $(function () {
+
+            $("#fBrithDate").persianDatepicker(
+                {
+                    alwaysShow: false,
+                    cellWidth: 46,
+                    cellHeight: 40,
+                    fontSize: 18
+                }
+            );
+
+        });
+        $(function () {
+
+            $("#fMilitaryStartDate").persianDatepicker(
+                {
+                    alwaysShow: false,
+                    cellWidth: 46,
+                    cellHeight: 40,
+                    fontSize: 18
+                }
+            );
+
+        });
+        $(function () {
+
+            $("#fCardReceiptDate").persianDatepicker(
+                {
+                    alwaysShow: false,
+                    cellWidth: 46,
+                    cellHeight: 40,
+                    fontSize: 18
+                }
+            );
+
+        });
+
+        // let selectedItem = document.getElementsByClassName("same-as-selected fSponsorshipStatus");
+        // let value = $(selectedItem).attr('data-val');
+        // if (value == 0) {
+        //     document.getElementById("divSponsorshipCount").classList.add("hide");
+        // }
+        // else {
+        //     document.getElementById("divSponsorshipCount").classList.remove("hide");
+
+        // }
+
+        let selectedItemMarital = document.getElementsByClassName("same-as-selected fMaritalStatus");
+        let valueMarital = $(selectedItemMarital).attr('data-val');
+        if (valueMarital == 0) {
+            document.getElementById("fieldsetTakafol").classList.add("hide");
+        }
+        else if (valueMarital == 1) {
+            document.getElementById("fieldsetTakafol").classList.remove("hide");
+            document.getElementById("status").classList.remove("hide");
+            document.getElementById("divSpouseCount").classList.remove("hide");
+
+
+        }
+        else if (valueMarital == 2) {
+            document.getElementById("fieldsetTakafol").classList.remove("hide");
+            document.getElementById("status").classList.add("hide");
+            document.getElementById("divSpouseCount").classList.add("hide");
+        }
+
+
+        let selectedItemMilitary = document.getElementsByClassName("same-as-selected fMilitaryServiceStatus");
+        let valueilitary = $(selectedItemMilitary).attr('data-val');
+        if (valueilitary == 1) {
+            document.getElementById("divPlaceOfServiceOrgan").classList.add("hide");
+            document.getElementById("divExemptionReason").classList.remove("hide");
+            document.getElementById("divExemptionCode").classList.remove("hide");
+        }
+        else if (valueilitary == 2) {
+
+            document.getElementById("divPlaceOfServiceOrgan").classList.add("hide");
+            document.getElementById("divExemptionReason").classList.remove("hide");
+            document.getElementById("divExemptionCode").classList.remove("hide");
+
+        }
+        else {
+            document.getElementById("divPlaceOfServiceOrgan").classList.remove("hide");
+            document.getElementById("divExemptionReason").classList.add("hide");
+            document.getElementById("divExemptionCode").classList.add("hide");
+        }
+
+        let selectedItemPhysicalCondition = document.getElementsByClassName("same-as-selected fPhysicalCondition");
+        let valuePhysicalCondition = $(selectedItemPhysicalCondition).attr('data-val');
+        if (valuePhysicalCondition == 0) {
+            document.getElementById("divfDescriptionOfPhysicalCondition").classList.add("hide")
+        }
+        else {
+            document.getElementById("divfDescriptionOfPhysicalCondition").classList.remove("hide");
+
+        }
+
+        let selectedItemHasEmployment = document.getElementsByClassName("same-as-selected fHasEmploymentHistory");
+        let valueHasEmployment = $(selectedItemHasEmployment).attr('data-val');
+        if (valueHasEmployment == 1) {
+            document.getElementById("divEmploymentHistory").classList.remove("hide");
+        }
+        else
+            document.getElementById("divEmploymentHistory").classList.add("hide");
+
+        let selectedItemReligion = document.getElementsByClassName("same-as-selected fReligion");
+        let valueReligion = $(selectedItemReligion).attr('data-val');
+        if (valueReligion != 0) {
+            x = document.getElementsByClassName("custom-select2 fSect");
+            $(x).attr("disabled", "disabled");
+            $(x).addClass("bg-darkgray");
+            var p = document.getElementsByClassName("select-items fSect select-hide");
+            $(p).attr("disabled", "disabled");
+        }
+
+        if (document.getElementById('fUseOfGlasses').checked == 1) {
+            document.getElementById("divTotalNumberOfEyes").classList.remove("hide")
+        }
+        else {
+            document.getElementById("divTotalNumberOfEyes").classList.add("hide");
+        }
+
+        function fUseOfGlasseschange(element) {
+
+            if (element.checked == 1) {
+                document.getElementById("divTotalNumberOfEyes").classList.remove("hide");
+            }
+            else {
+
+                document.getElementById("divTotalNumberOfEyes").classList.add("hide");
+                $("#fTotalNumberOfEyes").val('');
+            }
+        }
+        function ToRial(str) {
+
+            str = str.replace(/\,/g, '');
+            var objRegex = new RegExp('(-?[0-9]+)([0-9]{3})');
+
+            while (objRegex.test(str)) {
+                str = str.replace(objRegex, '$1,$2');
+            }
+
+            return str;
+        }
+    </script>
+    <script type="text/javascript">
+
+        function ChangeState(i) {
+            let ItemName = $(i).attr('class');
+
+            let DropdownItem = ItemName.split(' ')[1];
+            let selectedItem = document.getElementsByClassName("same-as-selected " + DropdownItem);
+            let value = $(selectedItem).attr('data-val');
+
+            $.ajax({
+                url: "/Home/GetCity/" + value,
+                method: "Post",
+            }).done(function (response) {
+
+                switch (DropdownItem) {
+                    case 'fProvinceId':
+
+                        PopulateDropDown("#fCityId", response.cities);
+                        break;
+                    case 'fProvinceOfIssueId':
+                        PopulateDropDown("#fCityOfIssueCityId", response.cities);
+                        break;
+                    case 'fResidenceProvinceId':
+                        PopulateDropDown("#fResidenceCityId", response.cities);
+                        break;
+
+
+                }
+            }).fail(function () {
+            });
+        }
+        function PopulateSect(dropDownId, list) {
+            $(dropDownId).empty();
+            if (list != null && list.length > 0) {
+                $.each(list, function (index, element) {
+                    $(dropDownId).append('<option  value="' + element.value + '">' + element.text + '</option>');
+
+                });
+
+            }
+        }
+        function ChangeMaritalStatus(item) {
+            let ItemName = $(item).attr('class');
+            let DropdownItem = ItemName.split(' ')[1];
+            let selectedItem = document.getElementsByClassName("same-as-selected " + DropdownItem);
+            let value = $(selectedItem).attr('data-val');
+            let countspouse = 0;
+            if (value == '1') {
+                countspouse = 1;
+                document.getElementById("fSpouseCount").value = countspouse;
+                SpouseCountCreate();
+            }
+
+
+            if (value == '1') {
+                document.getElementById("fieldsetTakafol").classList.remove("hide");
+                document.getElementById("status").classList.remove("hide");
+                document.getElementById("divSpouseCount").classList.remove("hide");
+
+            }
+            else if (value == '2') {
+                document.getElementById("fieldsetTakafol").classList.remove("hide");
+                document.getElementById("status").classList.add("hide");
+                document.getElementById("divSpouseCount").classList.add("hide");
+            }
+            else
+                document.getElementById("fieldsetTakafol").classList.add("hide");
+        }
+        function ChangeReligion(item) {
+            let ItemName = $(item).attr('class');
+            let DropdownItem = ItemName.split(' ')[1];
+            let selectedItem = document.getElementsByClassName("same-as-selected " + DropdownItem);
+            let value = $(selectedItem).attr('data-val');
+
+            if (value != '0') {
+                x = document.getElementsByClassName("custom-select2 fSect");
+                $(x).attr("disabled", "disabled");
+                $(x).addClass("bg-darkgray");
+                $(".select-items.fSect.select-hide").empty();
+                $(".select-selected.fSect").empty();
+            }
+            else {
+
+                $(x).removeAttr("disabled");
+                $(x).removeClass("bg-darkgray");
+                $.ajax({
+                    url: "/Home/GetSect",
+                    method: "Post",
+                }).done(function (response) {
+
+                    PopulateDropDown("#fSect", response);
+                }).fail(function () {
+                });
+            }
+        }
+        function PopulateDropDown(dropDownId, list) {
+            $(dropDownId).empty();
+            if (list != null && list.length > 0) {
+                $.each(list, function (index, element) {
+                    $(dropDownId).append('<option  value="' + element.value + '">' + element.text + '</option>');
+
+                });
+
+            }
+            CreateDiv(dropDownId.replace("#", ''));
+
+        }
+        function ChangeSponsorshipStatus(item) {
+            let ItemName = $(item).attr('class');
+            let DropdownItem = ItemName.split(' ')[1];
+            let selectedItem = document.getElementsByClassName("same-as-selected " + DropdownItem);
+            let value = $(selectedItem).attr('data-val');
+            $(selectedItem).removeClass("same-as-selected " + DropdownItem);
+            if (value == 0) {
+                document.getElementById("divSponsorshipCount").classList.add("hide");
+                $("#fSponsorshipCount").val('');
+                $(selectedItem).addClass("same-as-selected " + DropdownItem);
+            }
+            else {
+                document.getElementById("divSponsorshipCount").classList.remove("hide");
+                $(selectedItem).addClass("same-as-selected " + DropdownItem);
+            }
+        }
+        function fMilitaryServiceStatusChange(item) {
+            let ItemName = $(item).attr('class');
+            let DropdownItem = ItemName.split(' ')[1];
+            let selectedItem = document.getElementsByClassName("same-as-selected " + DropdownItem);
+            let value = $(selectedItem).attr('data-val');
+            if (value == 0) {
+                document.getElementById("divPlaceOfServiceOrgan").classList.remove("hide");
+                document.getElementById("divExemptionReason").classList.add("hide");
+                document.getElementById("divExemptionCode").classList.add("hide");
+                $("#fExemptionReason").val('');
+                $("#fExemptionCode").val('');
+
+            }
+            else if (value == 1) {
+                document.getElementById("divPlaceOfServiceOrgan").classList.add("hide");
+                $("#fPlaceOfServiceOrgan").val('');
+                document.getElementById("divExemptionReason").classList.remove("hide");
+                document.getElementById("divExemptionCode").classList.remove("hide");
+            }
+            else {
+                document.getElementById("divPlaceOfServiceOrgan").classList.add("hide");
+                $("#fPlaceOfServiceOrgan").val('');
+                document.getElementById("divExemptionReason").classList.remove("hide");
+                document.getElementById("divExemptionCode").classList.remove("hide");
+            }
+        }
+        function fPhysicalConditionChange(item) {
+            let ItemName = $(item).attr('class');
+            let DropdownItem = ItemName.split(' ')[1];
+            let selectedItem = document.getElementsByClassName("same-as-selected " + DropdownItem);
+            let value = $(selectedItem).attr('data-val');
+            if (value == 0) {
+                document.getElementById("divfDescriptionOfPhysicalCondition").classList.add("hide");
+                $("#fDescriptionOfPhysicalCondition").val('');
+            }
+            else {
+                document.getElementById("divfDescriptionOfPhysicalCondition").classList.remove("hide");
+            }
+        }
+        function fHasEmploymentHistorychange(item) {
+            let ItemName = $(item).attr('class');
+            let DropdownItem = ItemName.split(' ')[1];
+            let selectedItem = document.getElementsByClassName("same-as-selected " + DropdownItem);
+            let value = $(selectedItem).attr('data-val');
+            if (value == 0) {
+                document.getElementById("divEmploymentHistory").classList.add("hide");
+                $("#fPlaceOfWork").val('');
+                $("#fPersonalCode").val('');
+
+            }
+            else {
+
+                document.getElementById("divEmploymentHistory").classList.remove("hide");
+            }
+        }
+        function SpouseCountCreate() {
+            let x = document.getElementById("fSpouseCount");
+            var url = "/get-spouse/" + x.value
+            $.get(url, function (data) {
+                $("#status").html('');
+                $("#content").html(data);
+            });
+        }
+
+    </script>
+
+    <script src="~/js/select2/select2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#e2").select2({
+                placeholder: "انتخاب کنید",
+                allowClear: true,
+                //maximumSelectionSize: 1
+            });
+            // $('.select2-select').select2({
+            //     maximumSelectionSize: 1
+            // }).on('select2-opening', function (e) {
+            //     alert('fffffffffffff')
+            //     if ($(this).select2('val').length > 0) {
+            //         e.preventDefault();
+            //     }
+            // });
+            // $('#e2').on('select2:open', function (e) {
+            //     var count = $(this).select2('data').length;
+            //     alert(count)
+            //    e.preventDefault();
+                
+
+            // });
+            // $("#e3").select2({
+            //     placeholder: "انتخاب کنید",
+            //     allowClear: true,
+
+            // });
+            // $('.select2-select').select2({
+            //     maximumSelectionSize: 1
+            // }).on('select2-opening', function (e) {
+            //     if ($(this).select2('val').length > 0) {
+            //         e.preventDefault();
+            //     }
+            // });
+
+            // $('#e3').prop('multiple', false);
+        });
+    </script>
+    <script>
+        // $("#e2").select2({
+        //     placeholder: "انتخاب کنید",
+        //     allowClear: true
+        // });
+        // $("#e3").select2({
+        //     placeholder: "انتخاب کنید",
+        //     allowClear: true
+        // });
+        // on("select2:selecting", function (e) {
+        //     console.log("selecting", e.params.args.originalEvent);
+        //     if (e.params.args.originalEvent.target.className === 'btn') {
+        //         e.preventDefault();
+        //     }
+        // });
+    </script>
+
+}
+
+

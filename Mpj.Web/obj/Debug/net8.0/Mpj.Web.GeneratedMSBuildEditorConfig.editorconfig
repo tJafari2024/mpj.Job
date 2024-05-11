@@ -1,0 +1,199 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Mpj.Web
+build_property.RootNamespace = Mpj.Web
+build_property.ProjectDir = E:\mpjProjects\mpjProjects\MPJSolution\Mpj.Web\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\mpjProjects\mpjProjects\MPJSolution\Mpj.Web
+build_property._RazorSourceGeneratorDebug = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Employment/Employments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95bWVudFxFbXBsb3ltZW50cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Employment/PdfReport.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95bWVudFxQZGZSZXBvcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Employment/_CreatePdf.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95bWVudFxfQ3JlYXRlUGRmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Employment/_ShowDetailPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95bWVudFxfU2hvd0RldGFpbFBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Employment/_ShowEducationPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95bWVudFxfU2hvd0VkdWNhdGlvblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Employment/_ShowWorkPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcRW1wbG95bWVudFxfU2hvd1dvcmtQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Shared/_AdminChatBarSection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pbkNoYXRCYXJTZWN0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Shared/_AdminFooterReferences.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pbkZvb3RlclJlZmVyZW5jZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Shared/_AdminHeaderReferences.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pbkhlYWRlclJlZmVyZW5jZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Shared/_AdminLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Shared/_AdminLayoutPdf.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pbkxheW91dFBkZi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Shared/_AdminNaveBarSection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pbk5hdmVCYXJTZWN0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Shared/_AdminPagingPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pblBhZ2luZ1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/Shared/_AdminSideBarSection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9BZG1pblNpZGVCYXJTZWN0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Areas/Admin/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/AddAbilities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZGRBYmlsaXRpZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/AddAcquaintances.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZGRBY3F1YWludGFuY2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/AddAuthentication.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZGRBdXRoZW50aWNhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/AddAuthenticationWithSms.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZGRBdXRoZW50aWNhdGlvbldpdGhTbXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/AddEducationalRecord.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZGRFZHVjYXRpb25hbFJlY29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/AddPersonalImage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZGRQZXJzb25hbEltYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/AddSpecification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZGRTcGVjaWZpY2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/AddWorkExperience.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZGRXb3JrRXhwZXJpZW5jZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/EndStep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFbmRTdGVwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/EndStepForShowCode.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFbmRTdGVwRm9yU2hvd0NvZGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/EndStepForUploadDocument.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFbmRTdGVwRm9yVXBsb2FkRG9jdW1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/SupplementaryStep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdXBwbGVtZW50YXJ5U3RlcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/UploadDocument.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxVcGxvYWREb2N1bWVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/_SponsershipPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfU3BvbnNlcnNoaXBQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/_SpousePartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfU3BvdXNlUGFydGlhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Home/_WizardStep.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfV2l6YXJkU3RlcC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Shared/Components/SiteFooter/SiteFooter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2l0ZUZvb3RlclxTaXRlRm9vdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Shared/Components/SiteHeader/SiteHeader.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2l0ZUhlYWRlclxTaXRlSGVhZGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Shared/_FooterReferences.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXJSZWZlcmVuY2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Shared/_HeaderReferences.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IZWFkZXJSZWZlcmVuY2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Shared/_JqueryValidators.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9KcXVlcnlWYWxpZGF0b3JzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Shared/_MainLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9NYWluTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Shared/_NoItemFound.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ob0l0ZW1Gb3VuZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/Shared/_SiteMessages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaXRlTWVzc2FnZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/mpjProjects/mpjProjects/MPJSolution/Mpj.Web/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

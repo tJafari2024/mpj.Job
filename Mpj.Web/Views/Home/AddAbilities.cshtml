@@ -1,0 +1,204 @@
+﻿@model AbilitiesDTO
+@using Mpj.DataLayer.DTOs.EmploymentForm
+@using Mpj.Application.Utils
+@{
+    var modelStep = new ModelStepDTO() { Step = 8 };
+
+}
+@section styles
+{
+    <link href="/css/fileinput.min.css" rel="stylesheet" />
+    <style>
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+    </style>
+}
+
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">سایر</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            <div class="tab-pane border border-1 p-4" role="tabpanel" id="step8">
+                <form role="form" asp-area="" enctype="multipart/form-data" asp-controller="Home" asp-action="AddAbilities" method="post" class="login-box">
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">توانایی های عمومی</legend>
+                        <div class="row text-right">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" asp-for="AbilityToWorkInClericalJobs" class="custom-control-input" id="fAbilityToWorkInClericalJobs">
+                                        <label class="custom-control-label" asp-for="AbilityToWorkInClericalJobs" for="fAbilityToWorkInClericalJobs"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" asp-for="AbilityToTravelAsAMission" class="custom-control-input" id="fAbilityToTravelAsAMission">
+                                        <label class="custom-control-label" asp-for="AbilityToTravelAsAMission" for="fAbilityToTravelAsAMission"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" asp-for="AbilityToWorkInShifts" class="custom-control-input" id="fAbilityToWorkInShifts">
+                                        <label class="custom-control-label" asp-for="AbilityToWorkInShifts" for="fAbilityToWorkInShifts"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">توانایی های تخصصی</legend>
+                        <div class="row text-right">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-check-label" asp-for="AbilityTitle" for="fAbilityTitle"></label>
+                                    <input type="text" class="form-control" id="fAbilityTitle" asp-for="AbilityTitle">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">سایر</legend>
+
+                        <div class="row text-right">
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" onclick="fDescriptionOfAccidentChange(this)" asp-for="HavingAnAccident" class="custom-control-input" id="fHavingAnAccident">
+                                        <label class="custom-control-label" asp-for="HavingAnAccident" for="fHavingAnAccident"></label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="divDescriptionOfAccident" class="form-group hide">
+                                    <label class="form-check-label required" asp-for="DescriptionOfAccident" for="fDescriptionOfAccident"></label>
+                                    <input type="text" class="form-control" id="fDescriptionOfAccident" asp-for="DescriptionOfAccident">
+                                    <span class="text-danger" asp-validation-for="DescriptionOfAccident"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-right">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Entertainments" for="fEntertainments"></label>
+                                    <input type="text" class="form-control" id="fEntertainments" asp-for="Entertainments">
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Ideas" for="fIdeas"></label>
+                                    <input type="text" class="form-control" id="fIdeas" asp-for="Ideas">
+
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-2">
+                        <legend class="w-auto"></legend>
+                        <div class="row text-right">
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <label for="ResumeFile"></label>
+                                    <label asp-for="ResumeFile" for="ResumeFile"></label>
+                                    <input type="file" accept="application/pdf" id="ResumeFile" name="ResumeFile" class="form-control" />
+
+
+                                    <div class="alert alert-primary" role="alert">
+                                        انواع فایل های مجاز : pdf, حداکثر اندازه فایل: 10 MB.
+                                    </div>
+                                    @if (Model.ResumeFileUrl != null)
+                                    {
+                                        <a class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModal">
+                                            مشاهده فایل
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <ul class="list-inline">
+                        
+                        <li>
+                            <a class="btn btn-dark prev-step" asp-action="AddAcquaintances"> قبلی</a>
+
+                        </li>
+                        <li><button type="submit" class="btn btn-danger next-step">بعدی</button></li>
+
+                    </ul>
+
+
+
+                </form>
+
+
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="بستن">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <iframe src="@PathExtension.ResumeFileOrigin@Model.ResumeFileUrl" class="w-100"></iframe>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+
+
+    <script src="/js/fileinput.min.js"></script>
+    <script>
+        fileupload.OneFileUpload("ResumeFile");
+        function fDescriptionOfAccidentChange(element) {
+
+            if (element.checked == 1) {
+                document.getElementById("divDescriptionOfAccident").classList.remove("hide");
+            }
+            else {
+
+                document.getElementById("divDescriptionOfAccident").classList.add("hide");
+            }
+        }
+        if (document.getElementById('fHavingAnAccident').checked == 1) {
+            document.getElementById("divDescriptionOfAccident").classList.remove("hide")
+        }
+        else {
+            document.getElementById("divDescriptionOfAccident").classList.add("hide");
+        }
+    </script>
+
+
+
+}
+
+

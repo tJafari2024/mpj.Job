@@ -1,0 +1,115 @@
+﻿@using Mpj.DataLayer.DTOs.EmploymentForm
+@model Mpj.DataLayer.DTOs.EmploymentForm.LowDTO
+@{
+    var modelStep = new ModelStepDTO() { Step = 1 };
+}
+@section styles
+{
+
+    <style>
+
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+    </style>
+}
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">قوانین و ضوابط شرکت</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            <form role="form" enctype="multipart/form-data" asp-area="" asp-controller="Home" asp-action="Index" method="post" class="login-box">
+                <div class="tab-content" id="main_form">
+                    <div class="tab-pane active" role="tabpanel" id="step1">
+                        <div class="row text-right">
+                            <div class="col-md-12">
+                                <h4 class="h4 font-weight-bold">شرایط اختصاصی</h4>
+                                <div class="alert alert-danger">
+                                    چنانچه در هر یک از مراحل جذب و استخدام مشخص گردد که متقاضی در محدوده تحت پوشش سرویس ایاب و ذهاب سکونت ندارد و یا منزل مجردی اختیار نموده و بدون حضور خانواده زندگی می کند، شرکت به صورت یک جانبه خاتمه همکاری را اعلام می نماید.
+                                </div>
+                                <ul class="text-justify list-group  mb-3">
+                                    <li class="list-group-item">
+                                        محل سکونت افراد متقاضی کار به همراه خانواده باید در محدوده تحت پوشش سرویس های شرکت باشد.
+                                        <br />
+                                        <span class="font-weight-light text-mute"> محدوده سرویس های ایاب و ذهاب شرکت شهرستان های اصفهان، خمینی شهر، شاهین شهر، میمه ، گز و برخوار می باشد</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="col-md-12">
+                                <h4 class="h4 font-weight-bold">شرایط عمومی</h4>
+
+                                <ul class="text-justify  list-group mb-3">
+                                    <li class="list-group-item">دارا بودن تابعیت ایرانی</li>
+                                    <li class="list-group-item">دارا بودن کارت پایان خدمت وظیفه عمومی و یا معافیت دائم از خدمت غیر پزشکی ( استخدام دارندگان معافیت پزشکی با تایید پزشک طب کار بلامانع خواهد بود.)</li>
+                                    <li class="list-group-item">عدم سوء پیشینه کیفری</li>
+                                </ul>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <input type="checkbox" asp-for="AcceptLow" class="custom-control-input" id="fAcceptLow"></input>
+                                        <label class="custom-control-label " for="fAcceptLow"><strong>اینجانب با قوانین و ضوابط گروه صنایع جهان آرا موافقم</strong></label>
+                                    </div>
+                                </div>
+                                @*   <div class="form-group form-check bg-light p-3">
+                                    <input type="checkbox" id="fAcceptLow" class="form-check-input" asp-for="AcceptLow">
+                                    <label class="form-check-label" asp-for="AcceptLow"> اینجانب با قوانین و ضوابط گروه صنایع جهان آرا موافقم.<sup class="text-danger star-sub">*</sup> </label>
+                                    <span class="d-inline-b text-danger" asp-validation-for="AcceptLow"></span>
+                                </div> *@
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <ul class="list-inline">
+                    <li>
+                        @* <button id="btnNextStepq" onclick="Getinfo(12);" type="submit" class="default-btn next-step">ثبت نام/ورود به ناحیه ثثثثثثثکاربری</button> *@
+
+                        <button id="btnNextStep" type="submit" disabled class="default-btn next-step">ثبت نام/ورود به ناحیه کاربری</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        (function ($) {
+            $.validator.unobtrusive.adapters.addBool("checkboxrequired", "required");
+        }(jQuery));
+
+        // function Getinfo(id) {
+        //        $.get('/get-info/' + id);
+        // }
+
+
+
+    </script>
+
+    <script src="~/js/fileinput.min.js"></script>
+    <script>
+        $('#fAcceptLow').change(function () {
+            $('#btnNextStep').prop("disabled", !this.checked);
+        });
+        if (document.getElementById('fAcceptLow').checked == 1) {
+            $('#btnNextStep').prop("disabled", false);
+        }
+        else {
+            $('#btnNextStep').prop("disabled", true);
+        }
+
+
+    </script>
+
+}
+

@@ -1,0 +1,821 @@
+﻿@model Mpj.DataLayer.Entities.EmploymentForm.Employment
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Mpj.Application.Extensions
+@using Mpj.Application.Utils
+@using Mpj.DataLayer.Enums
+@{
+    Layout = "_AdminLayoutPdf";
+    int rowNumber = 1;
+    int rowNumberwork = 1;
+} 
+<style>
+    .page-body {
+        background: #fff !important;
+        padding: 18px 20px 24px;
+    }
+    .widget-body {
+  background-color: #fff !important;
+
+    }
+
+    .box-shadow: -1px 0 10px 1px rgb(255, 255, 255) !important;
+</style>
+<div class="row" style="direction:rtl;">
+    <div class="widget">
+      @*   <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger "> نمایش اطلاعات</h4>
+            </span>
+        </div> *@
+        <div class="widget-body">
+
+            @if (Model != null)
+            {
+                <div class="row text-right">
+                    <div class="col-xs-8 m-top-18">
+                        <div class="col-xs-8">
+                            <div class="form-group">
+                                <label asp-for="NationCode"></label>
+                                <label>:@Model.NationCode</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="form-group">
+                                <label asp-for="Mobile"></label>
+                                <label>:@Model.Mobile</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-4 imgPrfile" style="text-align:left;">
+                        @if (Model.PersonalImage != null)
+                        {
+                            <img src="@PathExtension.PersonalImageOrigin@Model.PersonalImage"
+                                 asp-append-version="true" />
+                        }
+                    </div>
+
+                </div>
+
+                <fieldset class="border p-2">
+                    <legend class="w-auto fs-14">مشخصات شناسنامه ای</legend>
+                    <br/>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="Name"></label>
+                                <label>:@Model.Name</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="Family"></label>
+                                <label>:@Model.Family</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="BirthCertificateId"></label>
+                                <label>:@Model.BirthCertificateId</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="BrithDate"></label>
+                                @{
+                                    if (Model.BrithDate != null)
+                                    {
+                                        <label>:@Model.BrithDate.Value.ToShamsiDate() </label>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="FatherName"></label>
+                                <label>:@Model.FatherName</label>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="JobFather"></label>
+                                <label>:@Model.JobFather</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="Religion"></label>
+                                @if (Model.Religion != null)
+                                {
+                                    var item = ((Religion)(byte)Model.Religion).GetDisplayName();
+                                    <label>:@item</label>
+
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="Sect"></label>
+                                @{
+                                    var selectitem = ((Sect)(byte)Model.Religion);
+                                    if (selectitem == 0)
+                                    {
+                                        var item = ((Sect)(byte)Model.Sect).GetDisplayName();
+                                        <label>:@item</label>
+                                    }
+                                    else
+                                    {
+                                        <label>:- </label>
+                                    }
+
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="Gender"></label>
+                                @{
+                                    var gender = ((Gender)(byte)Model.Gender).GetDisplayName();
+                                }
+                                <label>:@gender</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="ProvinceId"></label>
+                                <label>:@Model.Province.ProvinceName</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="CityId"></label>
+                                <label>:@Model.City.CityName</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="MaritalStatus"></label>
+                                @{
+                                    var marital = ((MaritalStatus)(byte)(Model.MaritalStatus)).GetDisplayName();
+                                }
+                                <label>:@marital</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </fieldset>
+                /* <fieldset class="border p-2">
+                    <legend class="w-auto fs-14">تحت تکفل</legend>
+                    <br />
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="SponsorshipStatus"></label>
+                                @{
+                                    var sponsorshipStatus = ((SponsorshipStatus)(byte)Model.SponsorshipStatus).GetDisplayName();
+                                }
+                                <label>:@sponsorshipStatus</label>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="SponsorshipCount"></label>
+                                @if ((SponsorshipStatus)(byte)Model.SponsorshipStatus == SponsorshipStatus.Have)
+                                {
+                                    <label>:@Model.SponsorshipCount</label>
+                                }
+                                else
+                                {
+                                    <label>:0</label>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            
+                        </div>
+                    </div>
+                    
+                </fieldset> */
+                <fieldset class="border p-2">
+                    <legend class="w-auto fs-14">مشخصات نظام وظیفه</legend>
+                    <br />
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="MilitaryServiceStatus"></label>
+                                @{
+                                    var militaryStatus = ((MilitaryServiceStatus)(byte)Model.MilitaryServiceStatus).GetDisplayName();
+                                }
+                                <label>:@militaryStatus</label>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                @if ((MilitaryServiceStatus)Model.MilitaryServiceStatus == MilitaryServiceStatus.TheEndOfService)
+                                {
+                                    <label asp-for="PlaceOfServiceOrgan"></label>
+                                    <label>:@Model.PlaceOfServiceOrgan</label>
+                                }
+                                else
+                                {
+                                    <label asp-for="ExemptionReason"></label>
+                                    <label>:@Model.ExemptionReason</label>
+
+
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                @if ((MilitaryServiceStatus)Model.MilitaryServiceStatus != MilitaryServiceStatus.TheEndOfService)
+                                {
+                                    <label asp-for="ExemptionCode"></label>
+                                    <label>:@Model.ExemptionCode</label>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            @if ((MilitaryServiceStatus)Model.MilitaryServiceStatus == MilitaryServiceStatus.TheEndOfService)
+                            {
+                                <label asp-for="MilitaryStartDate"></label>
+
+                                var msd = "";
+                                if (Model.MilitaryStartDate != null)
+                                {
+                                    msd = ((DateTime)Model.MilitaryStartDate).ToShamsiDate();
+                                }
+
+                                <label>:@msd</label>
+
+
+
+                            }
+
+                        </div>
+                        <div class="col-xs-4">
+                            @if ((MilitaryServiceStatus)Model.MilitaryServiceStatus == MilitaryServiceStatus.TheEndOfService)
+                            {
+                                <label asp-for="CardReceiptDate"></label>
+                                var crd = "";
+                                if (Model.CardReceiptDate != null)
+                                {
+                                    crd = ((DateTime)Model.CardReceiptDate).ToShamsiDate();
+                                }
+
+                                <label>:@crd</label>
+                            }
+
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="border p-2">
+                    <legend class="w-auto fs-14">مشخصات جسمانی</legend>
+                    <br />
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="Height"></label>
+                                <label>:@Model.Height</label>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="Weight"></label>
+                                <label>:@Model.Weight</label>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="UseOfGlasses"></label>
+                                @if ((bool)Model.UseOfGlasses)
+                                {
+                                    <label>: بله </label>
+                                }
+                                else
+                                {
+
+                                    <label>: خیر </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="PhysicalCondition"></label>
+                                @{
+                                    var physicalCondition = ((PhysicalCondition)(byte)Model.PhysicalCondition).GetDisplayName();
+                                }
+                                <label>:@physicalCondition</label>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                @if ((PhysicalCondition)Model.PhysicalCondition == PhysicalCondition.PhysicallyDisabled)
+                                {
+                                    <label asp-for="DescriptionOfPhysicalCondition"></label>
+                                    <label>:@Model.DescriptionOfPhysicalCondition</label>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                @if ((bool)Model.UseOfGlasses)
+                                {
+                                    <label asp-for="TotalNumberOfEyes"></label>
+                                    <label>:@Model.TotalNumberOfEyes</label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="row text-right">
+                    <div class="col-xs-4">
+                        <fieldset class="border p-2">
+                            <legend class="w-auto fs-14">سابقه بیمه</legend>
+                            <br />
+                            <div class="row text-right">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label asp-for="InsuranceHistoryYear"></label>
+                                        <label>:@Model.InsuranceHistoryYear</label>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row text-right">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label asp-for="InsuranceHistoryMonth"></label>
+                                        <label>:@Model.InsuranceHistoryMonth</label>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-8">
+                        <fieldset class="p-2">
+                            <legend class="w-auto fs-14">اطلاعات تکمیلی</legend>
+                            <br />
+                            <div class="row text-right">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label asp-for="HasEmploymentHistory"></label>
+                                        @{
+                                            var hase = ((YesORNo)((byte)(Model.HasEmploymentHistory == true ? 1 : 0))).GetDisplayName();
+                                        }
+                                        <label>:@hase</label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row text-right">
+                                @if ((bool)Model.HasEmploymentHistory == true)
+                                {
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label asp-for="PlaceOfWork"></label>
+                                            <label>:@Model.PlaceOfWork</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label asp-for="PersonalCode"></label>
+                                            <label>:@Model.PersonalCode</label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="row text-right">
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label asp-for="DrivingLicences"></label>
+                                        @{
+                                            var lstItem = "";
+                                            var lst = Model.DrivingLicences.Split(',');
+                                            foreach (var drive in lst)
+                                            {
+                                                switch ((DrivingLicences)Int32.Parse(drive))
+                                                {
+                                                    case DrivingLicences.Forklift:
+                                                        lstItem += DrivingLicences.Forklift.GetDisplayName() + " ، ";
+                                                        break;
+                                                    case DrivingLicences.Crane:
+                                                        lstItem += DrivingLicences.Crane.GetDisplayName() + " ، ";
+                                                        break;
+                                                    case DrivingLicences.Tractor:
+                                                        lstItem += DrivingLicences.Tractor.GetDisplayName() + " ، ";
+                                                        break;
+                                                    case DrivingLicences.BaseOne:
+                                                        lstItem += DrivingLicences.BaseOne.GetDisplayName() + " ، ";
+                                                        break;
+                                                    case DrivingLicences.BaseTwo:
+                                                        lstItem += DrivingLicences.BaseTwo.GetDisplayName() + " ، ";
+                                                        break;
+                                                    case DrivingLicences.BaseThree:
+                                                        lstItem += DrivingLicences.BaseThree.GetDisplayName() + " ، ";
+                                                        break;
+                                                    case DrivingLicences.Motorcycle:
+                                                        lstItem += DrivingLicences.Motorcycle.GetDisplayName() + " ، ";
+                                                        break;
+
+                                                }
+                                            }
+                                        }
+                                        <label>
+                                            :  @lstItem.Substring(0, @lstItem.Length - 2)
+                                      </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label asp-for="EmploymentStatus"></label>
+                                        @{
+                                            var empstatus = ((EmploymentStatus)(byte)Model.EmploymentStatus).GetDisplayName();
+                                        }
+
+                                        <label>:@empstatus</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="form-group">
+                                        <label asp-for="ProposedSalary"></label>
+                                        @{
+                                            var salary = (long)Model.ProposedSalary;
+                                        }
+                                        <label>:@salary.ToRial() ریال </label>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <fieldset class="p-2">
+                    <legend class="w-auto fs-14">آدرس محل سکونت</legend>
+                    <br />
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <label asp-for="ResidenceProvinceId"></label>
+                            <label>@Model.ResidenceProvince.ProvinceName</label>
+                        </div>
+                        <div class="col-xs-4">
+
+                            <label asp-for="ResidenceCityId"></label>
+                            <label>@Model.ResidenceCity.CityName</label>
+
+                        </div>
+                        <div class="col-xs-4">
+
+                            <label asp-for="ResidencePostalCode"></label>
+                            <label>:@Model.ResidencePostalCode</label>
+
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-md-12">
+                            <label asp-for="Address"></label>
+                            <label>:@Model.Address</label>
+                        </div>
+
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <label asp-for="ResidencePeriodByYear"></label>
+                            <label>:@Model.ResidencePeriodByYear</label>
+                        </div>
+                        <div class="col-xs-4">
+                            <label asp-for="ResidencePeriodByMonth"></label>
+                            <label>:@Model.ResidencePeriodByMonth</label>
+                        </div>
+                        <div class="col-xs-4">
+
+                            <label asp-for="ResidencePhone"></label>
+                            <label>:@Model.ResidencePhone</label>
+
+                        </div>
+                    </div>
+                </fieldset>
+                <br/>
+                <fieldset class="p-2">
+                    <legend class="w-auto fs-14">سوابق تحصیلی</legend>
+                    <br/>
+                    @if (Model.EducationalRecodes != null && Model.EducationalRecodes.Any())
+                    {
+                        <table class="table table-striped table-responsive">
+                            <thead>
+                            <tr>
+                                <th scope="col">ردیف</th>
+                                <th scope="col">مدرک تحصیلی</th>
+                                <th scope="col">رشته تحصیلی</th>
+                                <th scope="col">نام مرکز آموزشی</th>
+                                <th scope="col">استان محل تحصیل</th>
+                                <th scope="col">شهر محل تحصیل</th>
+                                <th scope="col">سال تحصیلی(شروع)</th>
+                                <th scope="col">سال تحصیلی(پایان)</th>
+                                <th scope="col">معدل</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var edu in Model.EducationalRecodes.Where(e => e.IsDelete == false))
+                            {
+
+                                <tr>
+
+                                    <td>
+                                        @rowNumber
+                                    </td>
+                                    <th>
+                                        @edu.DegreeOfEducation.GetDisplayName()
+
+                                    </th>
+                                    <td>
+                                        @edu.FieldOfStudy
+                                    </td>
+                                    <td>
+                                        @edu.CentralEducation
+                                    </td>
+                                    <td>
+                                        @edu.ProvinceOfPlaceOfStudy.ProvinceName
+                                    </td>
+                                    <td>
+                                        @edu.CityOfPlaceOfStudy.CityName
+                                    </td>
+                                    <td>
+                                        @edu.YearOfStartingEducation
+                                    </td>
+                                    <td>
+                                        @edu.YearOfEndingEducation
+                                    </td>
+                                    <td>
+                                        @edu.Avg
+                                    </td>
+                                </tr>
+                                rowNumber++;
+                            }
+                            </tbody>
+                        </table>
+                    }
+
+                </fieldset>
+                <br/>
+                <br/>
+                <br/>
+                <br />
+                <br />
+                <br />
+                @if (Model.WorkExperiences.Any())
+                {
+                    <fieldset class="border p-2">
+                        <legend class="w-auto fs-14">سوایق شغلی</legend>
+                        <br/>
+                        @if (Model.WorkExperiences != null && Model.WorkExperiences.Any())
+                        {
+                            <table class="table table-striped table-responsive">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ردیف</th>
+                                    <th scope="col">عنوان شغل</th>
+                                    <th scope="col">استان محل کار</th>
+                                    <th scope="col">شهر محل کار</th>
+                                    <th scope="col">نام شرکت</th>
+                                    <th scope="col">سال شروع به کار</th>
+                                    <th scope="col">سال ترک کار</th>
+                                    <th scope="col">علت ترک کار</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var wrk in Model.WorkExperiences.Where(w => w.IsDelete == false))
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @rowNumberwork
+                                        </td>
+                                        <th>
+                                            @wrk.JobTitle
+
+                                        </th>
+                                        <td>
+                                            @wrk.ProvinceOfJob.ProvinceName
+                                        </td>
+
+                                        <td>
+                                            @wrk.CityOfJob.CityName
+                                        </td>
+                                        <td>
+                                            @wrk.CompanyName
+                                        </td>
+                                        <td>
+                                            @wrk.YearOfStartingJob
+                                        </td>
+                                        <td>
+                                            @wrk.YearOfEndingJob
+                                        </td>
+                                        <td>
+                                            @wrk.ReasonForLeavingWork
+                                        </td>
+
+                                    </tr>
+                                    rowNumberwork++;
+                                }
+
+                                </tbody>
+                            </table>
+                        }
+                    </fieldset>
+                }
+
+                <br/>
+                <br/>
+                @if (Model.FirstFamiliarFullName!=null)
+                {
+                    <fieldset class="border p-2">
+                        <legend class="w-auto fs-14">آشنایان</legend>
+
+                        <table class="table table-striped table-responsive">
+                            <thead>
+                            <tr>
+                                <th scope="col">نام ونام خانوادگی</th>
+                                <th scope="col">سمت</th>
+                                <th scope="col">موبایل</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    @Model.FirstFamiliarFullName
+                                </td>
+                                <td>
+                                    @Model.FirstFamiliarJob
+                                </td>
+                                <td>
+                                    @Model.FirstFamiliarMobile
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Model.SecondFamiliarFullName
+                                </td>
+                                <td>
+                                    @Model.SecondFamiliarJob
+                                </td>
+                                <td>
+                                    @Model.SecondFamiliarMobile
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Model.AccessiblePersonFullName
+                                </td>
+                                <td>
+                                    @Model.AccessiblePersonJob
+                                </td>
+                                <td>
+                                    @Model.AccessiblePersonMobile
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Model.RepresentativeFullName
+                                </td>
+                                <td>
+                                    @Model.RepresentativeJob
+                                </td>
+                                <td>
+                                    @Model.RepresentativeMobile
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </fieldset>
+                }
+                <br/>
+                <fieldset class="p-2">
+                    <legend class="w-auto fs-14">سایر</legend>
+                    <br/>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="AbilityToWorkInShifts"></label>
+
+                                @if (Model.AbilityToWorkInShifts == null)
+                                {
+                                    <label>: خیر</label>
+                                }
+                                else
+                                {
+                                    <label>: بله</label>
+                                }
+
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="AbilityToTravelAsAMission"></label>
+                                @if (Model.AbilityToTravelAsAMission == null)
+                                {
+                                    <label>: خیر</label>
+                                }
+                                else
+                                {
+                                    <label>:بله </label>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="AbilityToTravelAsAMission"></label>
+                                @if (Model.AbilityToWorkInClericalJobs == null)
+                                {
+                                    <label>: خیر</label>
+
+                                }
+                                else
+                                {
+                                    <label>: بله</label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="AbilityTitle"></label>
+                                <label>: @Model.AbilityTitle</label>
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="HavingAnAccident"></label>
+                                @if (Model.HavingAnAccident == null)
+                                {
+                                    <label>:خیر </label>
+                                }
+                                else
+                                {
+                                    <label>: @Model.DescriptionOfAccident</label>
+
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label asp-for="Entertainments"></label>
+                                <label>: @Model.Entertainments</label>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Ideas"></label>
+                                <label>: @Model.Ideas</label>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+            }
+        </div>
+    </div>
+</div>

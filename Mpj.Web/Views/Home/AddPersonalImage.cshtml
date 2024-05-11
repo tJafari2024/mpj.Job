@@ -1,0 +1,114 @@
+﻿@model PersonalImageDTO
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Mpj.Application.Utils
+@using Mpj.DataLayer.DTOs.EmploymentForm
+@using Mpj.DataLayer.InMemoryCache
+@inject IAuthorizationMemoryCache _AuthorizationMemory;
+@{
+    var modelStep = new ModelStepDTO() { Step = 3 };
+    var authInfo = _AuthorizationMemory.Get("SaveAuthorization");
+}
+@section styles
+{
+    <link href="/css/fileinput.min.css" rel="stylesheet" />
+
+}
+
+
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">بارگزاری عکس</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            @if ((bool)authInfo.IsConfirmHumanResourceUnit)
+            {
+                <div class="alert alert-danger-Custom">
+                <i class="fa-fw fa fa-warning"></i> <strong>توجه :</strong>    کاربرگرامی،درحال حاضر امکان ویرایش اطلاعات برای شما فراهم نمی باشد و فقط مجاز به مشاهده اطلاعات ثبت شده می باشید.
+                </div>
+
+            }
+           
+            <div class="tab-pane" role="tabpanel" id="step3">
+                <form id="myform" role="form" enctype="multipart/form-data" asp-area="" asp-controller="Home" asp-action="AddPersonalImage" method="post" class="login-box">
+
+                    <h5 class="h5 text-danger text-right">شرایط عکس پرسنلی</h5>
+                    <div class="all-info-container text-right">
+
+
+                        <ul class="text-justify  list-group mb-3">
+                            <li class="list-group-item border-0">
+                                <i class="fa-regular fa-circle-check text-success"></i>
+                                عکس 3*4 تمام رخ که در سال جاری گرفته شده باشد.
+                            </li>
+                            <li class="list-group-item border-0">
+                                <i class="fa-regular fa-circle-check text-success"></i>
+                                عکس اسکن شده فقط باید با فرمتJPG یا JPEG باشد.
+                            </li>
+                            <li class="list-group-item border-0">
+                                <i class="fa-regular fa-circle-check text-success"></i>
+                                حجم عکس کمتر از ۱ مگابایت باشد.
+                            </li>
+                            <li class="list-group-item border-0">
+                                <i class="fa-regular fa-circle-check text-success"></i>
+                                تصویر باید شفاف ، واضح و تمام رخ، فاقد اثر مهر یا منگنه باشد.
+                            </li>
+                            <li class="list-group-item border-0">
+                                <i class="fa-regular fa-circle-check text-success"></i>
+                                حتی امکان عکس های دارای زمینه سفید باشد.
+                            </li>
+                            <li class="list-group-item border-0">
+                                <i class="fa-regular fa-circle-check text-success"></i>
+                                تصویر باید فاقد عینک آفتابی کلاه و غیره باشد.
+                            </li>
+                        </ul>
+
+                        <div class="form-group">
+
+                            @if (!(bool)authInfo.IsConfirmHumanResourceUnit)
+                            {
+                                <label asp-for="PersonalImage" class="required" for="fPersonalImage"></label>
+                                <input type="file" asp-for="PersonalImage" accept="image/*" id="fPersonalImage" class="form-control"/>
+                            }
+
+                        </div>
+                        <div class="alert alert-primary" role="alert">
+                            انواع فایل های مجاز : jpg, jpeg, حداکثر اندازه فایل: 1 MB.
+                        </div>
+                        @if (Model != null && Model.PersonalImageName != null)
+                        {
+                            <img src="@PathExtension.PersonalImageOrigin@Model.PersonalImageName"
+                                 asp-append-version="true"/>
+                        }
+
+
+
+                    </div>
+                    <ul class="list-inline">
+
+                        <li>
+                            <button type="submit" class="btn btn-danger next-step">بعدی</button>
+                        </li>
+
+                    </ul>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    @{
+
+        <script src="/js/fileinput.min.js"></script>
+        <script>
+            imageupload.OneImageUpload("fPersonalImage");
+                      
+        </script>
+
+    }
+}

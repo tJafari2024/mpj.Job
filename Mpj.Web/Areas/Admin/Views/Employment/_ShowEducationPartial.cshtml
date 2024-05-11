@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Mpj.Application.Extensions
+@using Mpj.Application.Utils
+@using Mpj.DataLayer.Enums
+@model Mpj.DataLayer.DTOs.EmploymentForm.Admin.AdminEmploymentDTO
+@{
+    var DegreeOfEducationValue = "";
+}
+<div class="row">
+<div class="widget">
+    <div class="widget-header bordered-left bordered-darkorange">
+        <span class="widget-caption">مشاهده سوابق تحصیلی</span>
+    </div>
+    <div class="widget-body bordered-left bordered-warning">
+            @if (Model.Employment.EducationalRecodes != null && Model.Employment.EducationalRecodes.Any())
+            {
+                <table class="table custom-table">
+                    <thead class="bordered-darkorange">
+                        <tr>
+                            <th>
+                                مدرک تحصیلی
+                            </th>
+                            <th>
+                                استان محل تحصیل
+                            </th>
+                            <th>
+                                شهر محل تحصیل
+                            </th>
+                            <th>
+                                رشته تحصیلی
+                            </th>
+                            <th>
+                                سال تحصیلی(شروع)
+                            </th>
+                            <th>
+                                سال تحصیلی(پایان)
+                            </th>
+                            <th>
+                                معدل
+                            </th>
+                            <th>
+                                مرکز آموزشی
+                            </th>
+                           
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Employment.EducationalRecodes)
+                        {
+                            <tr id="ajax-url-item-@item.Id">
+                                <td>
+                                    @{
+                                        switch (item.DegreeOfEducation)
+                                        {
+                                            case DegreeOfEducation.Sikle:
+                                                DegreeOfEducationValue=DegreeOfEducation.Sikle.GetDisplayName();
+                                                break;
+                                            case DegreeOfEducation.Diplom:
+                                                DegreeOfEducationValue = DegreeOfEducation.Diplom.GetDisplayName();
+
+                                                break;
+                                            case DegreeOfEducation.Karshenasi:
+                                                DegreeOfEducationValue = DegreeOfEducation.Karshenasi.GetDisplayName();
+
+                                                break;
+                                            case DegreeOfEducation.KarshenasiArshad:
+                                                DegreeOfEducationValue = DegreeOfEducation.KarshenasiArshad.GetDisplayName();
+
+                                                break;
+                                            case DegreeOfEducation.Doctora:
+                                                DegreeOfEducationValue = DegreeOfEducation.Doctora.GetDisplayName();
+
+                                                break;
+                                           
+                                        }
+
+                                        @DegreeOfEducationValue
+                                    }
+                                </td>
+                                <td>
+                                    @item.ProvinceOfPlaceOfStudy.ProvinceName
+                                </td>
+                                <td>
+                                    @item.CityOfPlaceOfStudy.CityName
+                                </td>
+                                <td>
+                                    @item.FieldOfStudy
+                                </td>
+                                <td>
+                                    @item.YearOfStartingEducation
+                                </td>
+                                <td>
+                                    @item.YearOfEndingEducation
+                                </td>
+                                <td>
+                                    @item.Avg
+                                </td>
+                                <td>
+                                    @item.CentralEducation
+                                </td>
+                                
+                                
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <partial name="_NoItemFound" />
+            }
+    </div>
+</div>
+</div>

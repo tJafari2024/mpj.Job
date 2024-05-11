@@ -1,0 +1,345 @@
+﻿@using Mpj.DataLayer.DTOs.EmploymentForm
+@using Mpj.DataLayer.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Mpj.Application.Utils
+@using Mpj.DataLayer.InMemoryCache
+@inject IAuthorizationMemoryCache _Authorization;
+@model DocumentModel
+@{
+    int childCounter = 1;
+    int spouseCounter = 1;
+    var auto = _Authorization.Get("SaveAuthorization");
+}
+@section styles
+{
+    <link href="/css/fileinput.min.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-bottom: 1rem;
+            width: 100%;
+            margin-left: 16px;
+            margin-right: 12px;
+        }
+        .alert-info{
+            margin-left: 12px !important;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #e55f56 !important;
+            border-color: #ef5c58 !important;
+        }
+
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+        .file-preview {
+            /* margin-top: 78px !important; */
+            float: left;
+            margin-left: 12px;
+        }
+
+        .display-4 {
+            font-size: 17px !important;
+        }
+
+        .jumbotron {
+            padding: 20px;
+        }
+    </style>
+}
+@{
+    var modelStep = new ModelStepDTO() { Step = 11 };
+
+}
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">آپلود مدارک مورد نیاز</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            <div class="tab-pane border border-1 p-4" role="tabpanel" id="step11">
+                <div class="jumbotron">
+                    <h3 class="display-4">کاربر گرامی ،لطفا مدارک خواسته شده را بارگزاری نمایید.</h3>
+                </div>
+                <form id="myform" role="form" enctype="multipart/form-data" asp-area="" asp-controller="Home" asp-action="UploadDocument" method="post" class="login-box">
+                    <div class="row text-right">
+                        @if (Model.DocumentList != null)
+                        {
+                            <div class="col-md-6">
+                                <fieldset class="border p-2">
+                                    <legend class="w-auto">مدارک فرد متقاضی</legend>
+                                    @for (int i = 0; i < Model.DocumentList.Count; i++)
+                                    {
+                                        if (Model.DocumentList[i].DocumentID != -1)
+                                        {
+                                            var fileupload1 = "file_" + Convert.ToString(Model.DocumentList[i].DocumentID);
+                                            var hdnlbl1 = "hdnlbl_" + Convert.ToString(Model.DocumentList[i].DocumentID);
+                                            var hdn1 = "hdn1_" + Convert.ToString(Model.DocumentList[i].DocumentID);
+                                            var hdfileName = "hdfilename_" + Convert.ToString(Model.DocumentList[i].DocumentID);
+                                            if (Model.DocumentList[i].Mandatory != null)
+                                            {
+                                                var mad = "mand_" + i;
+                                                @Html.HiddenFor(m => m.DocumentList[i].Mandatory, new { id = mad })
+                                            }
+
+                                            var madname = "manddocname_" + Convert.ToString(Model.DocumentList[i].DocumentID);
+                                            var valdation = "_val" + Convert.ToString(Model.DocumentList[i].DocumentID);
+                                            var valdationrequired = "_valR" + Convert.ToString(Model.DocumentList[i].DocumentID);
+
+                                            @Html.HiddenFor(m => m.DocumentList[i].DocumentName, new { id = hdnlbl1 })
+                                            @Html.HiddenFor(m => m.DocumentList[i].DocumentID, new { id = hdn1 })
+                                            @Html.HiddenFor(m => m.DocumentList[i].DocumentName, new { id = madname })
+                                            @Html.HiddenFor(m => m.DocumentList[i].DocumentType)
+                                            @if (Model.DocumentList[i].DocumentID != -1)
+                                            @Html.HiddenFor(m => m.DocumentList[i].DocumentFileName, new { id = hdfileName })
+
+                                            <div class="row">
+                                                <div class="form-group">
+
+                                                    @if (Model.DocumentList[i].Mandatory == 1)
+                                                    {
+                                                        <label style="color: red;">*</label>
+                                                    }
+                                                    @{
+                                                        var documentname = Model.DocumentList[i].DocumentName;
+                                                    }
+                                                    <label style="font-size: 15px;">@documentname</label>
+                                                    @if (Model.DocumentList[i].DocumentFileName != null)
+                                                    {
+                                                        <img class="f-left" src="@PathExtension.DocumentFileOrigin@Model.DocumentList[i].DocumentFileName"
+                                                             asp-append-version="true" />
+                                                    }
+                                                     @if (!(bool)auto.IsConfirmHumanResourceUnit)
+                                                    { 
+                                                    <input type="file" id="@fileupload1" name="@fileupload1" class="form-control fileupload"
+                                                           onchange="ValidateFile(this);" />
+
+                                                    <span style="color:Red" id=@valdation></span>
+                                                    <span style="color:Red" id=@valdationrequired></span>
+                                                     } 
+                                                </div>
+                                            </div>
+
+                                        }
+
+
+                                    }
+                                </fieldset>
+                            </div>
+                            <div class="col-md-6">
+                                @if (auto.MaritalStatus != MaritalStatus.Single)
+                                {
+
+
+                                    <fieldset class="border p-2">
+                                        <legend class="w-auto">مدارک افراد تحت تکفل</legend>
+                                        @for (int i = 0; i < Model.DocumentList.Count; i++)
+                                        {
+                                            @if (Model.DocumentList[i].DocumentList != null)
+                                            {
+                                                for (int j = 0; j < Model.DocumentList[i].DocumentList.Count; j++)
+                                                {
+                                                    var subfileupload1 = "file_" + Convert.ToString(Model.DocumentList[i].DocumentList[j].DocumentID);
+                                                    var subhdnlbl1 = "hdnlbl_" + Convert.ToString(Model.DocumentList[i].DocumentList[j].DocumentID);
+                                                    var subhdn1 = "hdn1_" + Convert.ToString(Model.DocumentList[i].DocumentList[j].DocumentID);
+                                                    var subhdfileName = "hdfilename_" + Convert.ToString(Model.DocumentList[i].DocumentList[j].DocumentID);
+
+                                                    if (Model.DocumentList[i].DocumentList[j].Mandatory != null)
+                                                    {
+                                                        var submad = "mand_" + i;
+                                                        @Html.HiddenFor(m => m.DocumentList[i].DocumentList[j].Mandatory, new { id = submad })
+                                                    }
+
+                                                    var submadname = "manddocname_" + Convert.ToString(Model.DocumentList[i].DocumentList[j].DocumentID);
+                                                    var subvaldation = "_val" + Convert.ToString(Model.DocumentList[i].DocumentList[j].DocumentID);
+                                                    var subvaldationrequired = "_valR" + Convert.ToString(Model.DocumentList[i].DocumentList[j].DocumentID);
+
+                                                    @Html.HiddenFor(m => m.DocumentList[i].DocumentList[j].DocumentName, new { id = subhdnlbl1 })
+                                                    @Html.HiddenFor(m => m.DocumentList[i].DocumentList[j].DocumentID, new { id = subhdn1 })
+                                                    @Html.HiddenFor(m => m.DocumentList[i].DocumentList[j].DocumentName, new { id = submadname })
+                                                    @Html.HiddenFor(m => m.DocumentList[i].DocumentList[j].DocumentType)
+                                                    @if (Model.DocumentList[i].DocumentList[j].DocumentID != -1)
+                                                    @Html.HiddenFor(m => m.DocumentList[i].DocumentList[j].DocumentFileName, new { id = subhdfileName })
+
+                                                    <div class="form-group">
+
+                                                        @if (Model.DocumentList[i].DocumentList[j].Mandatory == 1)
+                                                        {
+                                                            <label style="color: red;">*</label>
+                                                        }
+                                                        @{
+                                                            //var subdocumentname = Model.DocumentList[i].DocumentList[j].DocumentName;
+                                                            // if (Model.DocumentList[i].DocumentList[j].DocumentType == TypeDocument.ChildPage1)
+                                                            // {
+                                                            //     subdocumentname = subdocumentname + childCounter;
+                                                            //     childCounter++;
+                                                            // }
+
+                                                        }
+                                                        <label style="font-size: 15px;">@Model.DocumentList[i].DocumentList[j].DocumentName</label>
+                                                       @*  @if (Model.DocumentList[i].DocumentList[j].DocumentType == TypeDocument.ChildPage1 )
+                                                        {
+                                                            <div class="alert alert-info">
+                                                                <strong>توجه!</strong> برای فرزندانی که کارت ملی ندارند،تصویر شناسنامه آپلود شود
+                                                            </div>
+                                                        } *@
+                                                        @if (Model.DocumentList[i].DocumentList[j].DocumentFileName != null)
+                                                        {
+                                                            <img class="f-left" src="@PathExtension.DocumentFileOrigin@Model.DocumentList[i].DocumentList[j].DocumentFileName"
+                                                                 asp-append-version="true" />
+                                                        }
+                                                         @if (!(bool)auto.IsConfirmHumanResourceUnit) 
+                                                         { 
+                                                        <input type="file" id="@subfileupload1" name="@subfileupload1" class="form-control fileupload"
+                                                               onchange="ValidateFile(this);" />
+                                                        <span style="color:Red" id=@subvaldation></span>
+                                                        <span style="color:Red" id=@subvaldationrequired></span>
+                                                         } 
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    </fieldset>
+
+
+                                }
+                            </div>
+
+
+                        }
+                    </div>
+                    <ul class="list-inline">
+
+                        <li>
+                            <a class="btn btn-dark prev-step" asp-action="SupplementaryStep"> قبلی</a>
+
+                        </li>
+                        <li>
+                            <input id="Submit1" class="btn btn-danger next-step" onclick="return Savefiles();" type="submit" value="ارسال فایل مدارک" />
+                        </li>
+
+                    </ul>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+@section scripts
+                            {
+    <script src="/js/jquery-migrate-1.2.1.js"></script>
+    <script src="/js/fileinput.min.js"></script>
+
+    <script type="text/javascript">
+        var inputs = document.getElementsByClassName('fileupload');
+        for (i = 0; i <= inputs.length; i++) {
+            if (i == 0)
+                $(inputs).addClass("hide");
+            else
+                imagePdfupload.OneImageUpload("file_" + i);
+
+        }
+
+        function ValidateFileSize(fileid) {
+            try {
+                var fileSize = 0;
+                if (navigator.userAgent.match(/msie/i)) {
+                    var obaxo = new ActiveXObject("Scripting.FileSystemObject");
+                    var filePath = $("#" + fileid)[0].value;
+                    var objFile = obaxo.getFile(filePath);
+                    var fileSize = objFile.size;
+                    fileSize = fileSize / 1048576;
+                }
+                else {
+                    fileSize = $(fileid)[0].files[0].size
+                    fileSize = fileSize / 1048576;
+                }
+
+                return fileSize;
+            }
+            catch (e) {
+                // alert("خطا در :" + e);
+            }
+        }
+        function getNameFromPath(strFilepath) {
+            var objRE = new RegExp(/([^\/\\]+)$/);
+            var strName = objRE.exec(strFilepath);
+
+            if (strName == null) {
+                return null;
+            }
+            else {
+                return strName[0];
+            }
+        }
+        function ValidateFile(value) {
+
+            var file = getNameFromPath($(value).val());
+            if (file != null) {
+                var extension = file.substr((file.lastIndexOf('.') + 1));
+                switch (extension) {
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'png':
+                    case 'pdf':
+                        flag = true;
+                        break;
+                    default:
+                        flag = false;
+                }
+            }
+
+            if (flag == false) {
+
+                var str = value.name;
+                var res = str.split("_");
+                var data = "_val" + res[1];
+                $("#" + data).text("شما مجاز به آپلود فایل هایی از نوع jpg, jpeg ,png,pdf  می باشید");
+                $("#" + value.name).val('');
+                return false;
+            }
+            else {
+                var size = ValidateFileSize(value);
+                var str = value.name;
+                var res = str.split("_");
+                var data = "_val" + res[1];
+                if (size > 1) {
+                    $("#" + data).text("حداکثر اندازه فایل 1 MB می باشد");
+                    $("#" + value.name).val('');
+                }
+                else {
+                    $("#" + data).text("");
+                }
+            }
+            var data = "_valR" + res[1];
+            $("#" + data).text("");
+        }
+        function Savefiles() {
+            var MandFlg = $("[id*='mand_']");
+            var FileUpload1 = $("[id*='file_']");
+            var Booleandata = true;
+            if (FileUpload1.length>0) {
+                var valR = $("[id*='_valR']");
+                var madfile = $("[id*='manddocname_']");
+                var filename = $("[id*='hdfilename_']")
+
+                for (var i = 0; i < MandFlg.length; i++) {
+
+                    if ($("#" + MandFlg[i].id).val() == '1' && $("#" + FileUpload1[i].id).val() == '' && $("#" + filename[i].id).val() == '') {
+                        Booleandata = false;
+                        $("#" + valR[i].id).text("این فیلد الزامی می باشد");
+
+                    }
+                    else
+                        $("#" + valR[i].id).text("");
+                }
+            }
+
+            return Booleandata;
+        }
+    </script>
+}

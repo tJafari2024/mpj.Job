@@ -1,0 +1,28 @@
+﻿@using Mpj.DataLayer.Enums
+@model Mpj.DataLayer.DTOs.EmploymentForm.SpecificationsDTO
+@if (Model.Spouse!=null && Model.Spouse.Any())
+{
+    @for (int i = 0; i < Model.SpouseCount; i++)
+    {
+        <div class="row text-right">
+            @{
+                string fspouseName = "spouse" + i;
+            }
+            <div id="@fspouseName" class="col-md-4">
+                <div class="form-group">
+                    <input type="hidden" asp-for="@Model.Spouse[i].EmploymentId"/>
+                    <input type="hidden" value="@((byte)Relation.Spouse)" asp-for="@Model.Spouse[i].Relation"/>
+                    <label asp-for="@Model.Spouse[i].SpouseJob" for="fSpouseJob">شغل همسر </label>
+                    <input type="text" onkeypress="return /[آ-ی\s]/i.test(event.key)" class="form-control" id="fSpouseJob" asp-for="@Model.Spouse[i].SpouseJob">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="@Model.Spouse[i].SpouseMobile" for="fSpouseMobile">شماره همراه همسر </label>
+                    <input type="text" class="form-control" id="fSpouseMobile" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="@Model.Spouse[i].SpouseMobile">
+                    <span class="text-danger" asp-validation-for="@Model.Spouse[i].SpouseMobile"></span>
+                </div>
+            </div>
+        </div>
+    }
+}

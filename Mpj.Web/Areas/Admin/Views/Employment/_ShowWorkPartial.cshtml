@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Mpj.Application.Extensions
+@using Mpj.Application.Utils
+@using Mpj.DataLayer.Enums
+@model Mpj.DataLayer.DTOs.EmploymentForm.Admin.AdminEmploymentDTO
+@{
+    var DegreeOfEducationValue = "";
+}
+<div class="row">
+<div class="widget">
+    <div class="widget-header bordered-left bordered-darkorange">
+        <span class="widget-caption">مشاهده سوابق تحصیلی</span>
+    </div>
+    <div class="widget-body bordered-left bordered-warning">
+            @if (Model.Employment.WorkExperiences != null && Model.Employment.WorkExperiences.Any())
+            {
+                <table class="table custom-table">
+                    <thead class="bordered-darkorange">
+                        <tr>
+                            <th>
+                                عنوان شغل
+                            </th>
+                            <th>
+                                استان محل کار
+                            </th>
+                            <th>
+                                شهر محل کار
+                            </th>
+                            <th>
+                                نام شرکت
+                            </th>
+                            <th>
+                                سال شروع به کار
+                            </th>
+                            <th>
+                                سال ترک کار
+                            </th>
+                            <th>
+                                علت ترک کار
+                            </th>
+                         
+                         </thead>
+                    <tbody>
+                        @foreach (var item in Model.Employment.WorkExperiences)
+                        {
+                            <tr id="ajax-url-item-@item.Id">
+                                <td>
+                                  @item.JobTitle
+                                </td>
+                                <td>
+                                    @item.ProvinceOfJob.ProvinceName
+                                </td>
+                                <td>
+                                    @item.CityOfJob.CityName
+                                </td>
+                                <td>
+                                    @item.CompanyName
+                                </td>
+                                <td>
+                                    @item.YearOfStartingJob
+                                </td>
+                                <td>
+                                    @item.YearOfEndingJob
+                                </td>
+                                <td>
+                                    @item.ReasonForLeavingWork
+                                </td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <partial name="_NoItemFound" />
+            }
+    </div>
+</div>
+</div>

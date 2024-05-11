@@ -1,0 +1,153 @@
+﻿@model Mpj.DataLayer.DTOs.EmploymentForm.ModelStepDTO
+<div class="wizard-inner">
+    <div class="connecting-line"></div>
+    <ul class="nav nav-tabs" role="tablist">
+        @if (Model.Step == 1)
+        {
+            <li role="presentation" class="active">
+                <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab"><i class="fa-solid fa-scale-balanced"></i> </span> <i>قوانین و ضوابط </i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab"><i class="fa-solid fa-scale-balanced"></i> </span> <i>قوانین و ضوابط </i></a>
+            </li>
+        }
+        @if (Model.Step == 2)
+        {
+            <li role="presentation" class="active">
+                <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab"><i class="fa-solid fa-key"></i></span> <i>احراز هویت</i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab"><i class="fa-solid fa-key"></i></span> <i>احراز هویت</i></a>
+            </li>
+
+        }
+        @if (Model.Step == 3)
+        {
+            <li role="presentation" class="active">
+                <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab"><i class="fa-solid fa-camera"></i></span> <i>بارگزاری عکس</i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab"><span class="round-tab"><i class="fa-solid fa-camera"></i></span> <i>بارگزاری عکس</i></a>
+            </li>
+
+
+        }
+        @if (Model.Step == 4)
+        {
+            <li role="presentation" class="active">
+                <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab"><i class="fa-solid fa-user"></i></span> <i>مشخصات</i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab"><i class="fa-solid fa-user"></i></span> <i>مشخصات</i></a>
+            </li>
+
+
+        }
+        @if (Model.Step == 5)
+        {
+            <li role="presentation" class="active">
+                <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab"><i class="fa-solid fa-graduation-cap"></i></span> <i>سوابق تحصیلی</i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab"><span class="round-tab"><i class="fa-solid fa-graduation-cap"></i></span> <i>سوابق تحصیلی</i></a>
+            </li>
+
+
+        }
+        @if (Model.Step == 6)
+        {
+            <li role="presentation" class="active">
+                <a href="#step6" data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab"><i class="fa-solid fa-user-tie"></i></span> <i>سوابق شغلی</i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step6" data-toggle="tab" aria-controls="step6" role="tab"><span class="round-tab"><i class="fa-solid fa-user-tie"></i></span> <i>سوابق شغلی</i></a>
+            </li>
+
+        }
+        @if (Model.Step == 7)
+        {
+            <li role="presentation" class="active">
+                <a href="#step7" data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab"><i class="fa-solid fa-users"></i></span> <i>آشنایان </i></a>
+            </li>
+
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step7" data-toggle="tab" aria-controls="step7" role="tab"><span class="round-tab"><i class="fa-solid fa-users"></i></span> <i>آشنایان </i></a>
+            </li>
+
+
+        }
+        @if (Model.Step == 8)
+        {
+            <li role="presentation" class="active">
+                <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab"><i class="fa-solid fa-layer-group"></i></span> <i>سایر </i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step8" data-toggle="tab" aria-controls="step8" role="tab"><span class="round-tab"><i class="fa-solid fa-layer-group"></i></span> <i>سایر </i></a>
+            </li>
+
+        }
+        @if (Model.Step == 9)
+        {
+            <li role="presentation" class="active">
+                <a href="#step9" data-toggle="tab" aria-controls="step9" role="tab"><span class="round-tab"><i class="fa-solid fa-eye"></i></span> <i>پیش نمایش </i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step9" data-toggle="tab" aria-controls="step9" role="tab"><span class="round-tab"><i class="fa-solid fa-eye"></i></span> <i>پیش نمایش </i></a>
+            </li>
+
+        }
+        @if (Model.Step == 10)
+        {
+            <li role="presentation" class="active">
+                <a href="#step10" data-toggle="tab" aria-controls="step10" role="tab"><span class="round-tab"><i class="fa-solid  fa-pen-to-square"></i></span> <i>اطلاعات تکمیلی </i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step10" data-toggle="tab" aria-controls="step10" role="tab"><span class="round-tab"><i class="fa-solid  fa-pen-to-square"></i></span> <i>اطلاعات تکمیلی </i></a>
+            </li>
+
+        }
+        @if (Model.Step == 11)
+        {
+            <li role="presentation" class="active">
+                <a href="#step11" data-toggle="tab" aria-controls="step11" role="tab"><span class="round-tab"><i class="fa-solid fa-book"></i></span> <i>آپلود مدارک </i></a>
+            </li>
+        }
+        else
+        {
+            <li role="presentation" class="disabled">
+                <a href="#step11" data-toggle="tab" aria-controls="step11" role="tab"><span class="round-tab"><i class="fa-solid fa-book"></i></span> <i>آپلود مدارک </i></a>
+            </li>
+
+        }
+    </ul>
+</div>

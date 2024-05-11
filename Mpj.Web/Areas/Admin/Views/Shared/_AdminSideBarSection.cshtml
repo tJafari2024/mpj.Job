@@ -1,0 +1,735 @@
+﻿<!-- Page Sidebar -->
+<div class="page-sidebar" id="sidebar">
+    <!-- Page Sidebar Header-->
+    <div class="sidebar-header-wrapper">
+        <input type="text" class="searchinput" />
+        <i class="searchicon fa fa-search"></i>
+        <div class="searchhelper">به جستجوی صفحات، گزارشات، پیام ها و ایمیل خود بپردازید</div>
+    </div>
+    <!-- /Page Sidebar Header -->
+    <!-- Sidebar Menu -->
+    <ul class="nav sidebar-menu w-274">
+        <!--Dashboard-->
+        <li>
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                <i class="menu-icon glyphicon glyphicon-home"></i>
+                <span class="menu-text"> داشبورد </span>
+            </a>
+        </li>
+        <!--Databoxes-->
+        
+@* 
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text"> کاربران</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+                <li>
+                    <a href="#" class="menu-dropdown">
+                        <span class="menu-text">
+                            مدیریت کاربران
+                        </span>
+                        <i class="menu-expand"></i>
+                    </a>
+
+                    <ul class="submenu">
+
+                        <li>
+                            <a asp-area="Admin" asp-controller="UserManage" asp-action="Index">
+                                <i class="menu-icon glyphicon glyphicon-stats"></i>
+                                <span class="menu-text">کاربران سایت</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="UserManage" asp-action="UsersOrder">
+                                <i class="menu-icon glyphicon glyphicon-stats"></i>
+                                <span class="menu-text">کاربرانی که دوره خریداری کرده اند</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="menu-dropdown">
+                        <span class="menu-text">
+                            مدیریت نقش های کاربری
+                        </span>
+                        <i class="menu-expand"></i>
+                    </a>
+
+                    <ul class="submenu">
+
+                        <li>
+                            <a asp-area="Admin" asp-controller="Role" asp-action="Index">
+                                <i class="menu-icon glyphicon glyphicon-stats"></i>
+                                <span class="menu-text">نقش های کاربری</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text"> تنظیمات </span>
+                <i class="menu-expand"></i>
+            </a>
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="Site" asp-action="SiteSetting">
+                        <i class="menu-icon glyphicon glyphicon-stats"></i>
+                        <span class="menu-text"> تنظیمات سایت</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Site" asp-action="SiteContacts">
+                        <i class="menu-icon glyphicon glyphicon-stats"></i>
+                        <span class="menu-text">  روش های تماس با سایت</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Site" asp-action="Shipping">
+                        <i class="menu-icon glyphicon glyphicon-stats"></i>
+                        <span class="menu-text">  روش های ارسال کالا</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text"> اطلاعات متنی</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Site" asp-action="Infos">
+                        <i class="menu-icon glyphicon glyphicon-stats"></i>
+                        <span class="menu-text"> اطلاعات متنی سایت</span>
+                    </a>
+
+
+                </li>
+
+
+
+
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text">تصاویر</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Folder" asp-action="Index">
+                        <i class="menu-icon glyphicon glyphicon-stats"></i>
+                        <span class="menu-text"> مدیریت پوشه های تصاویر</span>
+                    </a>
+
+
+                </li>
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Site" asp-action="Sliders">
+                        <i class="menu-icon glyphicon glyphicon-stats"></i>
+                        <span class="menu-text"> مدیریت اسلایدر</span>
+                    </a>
+
+
+                </li>
+
+
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text"> مدیریت حساب های بانکی </span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Bank" asp-action="Banks">
+                        <i class="menu-icon glyphicon glyphicon-stats"></i>
+                        <span class="menu-text">  اطلاعات حساب بانکی</span>
+                    </a>
+
+
+                </li>
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Payment" asp-action="Payments">
+                        <i class="menu-icon glyphicon glyphicon-stats"></i>
+                        <span class="menu-text"> مدیریت روش های پرداخت</span>
+                    </a>
+
+
+                </li>
+
+
+
+            </ul>
+        </li>
+        <li style="display: none;">
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text"> فروشگاه</span>
+
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+                <li>
+                    <a href="#" class="menu-dropdown">
+                        <span class="menu-text">
+                            مدیریت فروشندگان
+                        </span>
+                        <i class="menu-expand"></i>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a asp-area="Admin" asp-controller="Seller" asp-action="SellerRequests">
+                                <i class="menu-icon fa fa-user"></i>
+                                <span class="menu-text">درخواست های فروشندگان</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="glyph-icons.html">
+                                <i class="menu-icon glyphicon glyphicon-stats"></i>
+                                <span class="menu-text">Glyph Icons</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="typicon.html">
+                                <i class="menu-icon typcn typcn-location-outline"></i>
+                                <span class="menu-text"> Typicons</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="weather-icons.html">
+                                <i class="menu-icon wi wi-hot"></i>
+                                <span class="menu-text">Weather Icons</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="menu-dropdown">
+                        <span class="menu-text">
+                            مدیریت محصولات
+                        </span>
+                        <i class="menu-expand"></i>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a asp-area="Admin" asp-controller="ProductCategory" asp-action="ProductCategory">
+                                <i class="menu-icon fa fa-user"></i>
+                                <span class="menu-text">گروه بندی محصولات</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="glyph-icons.html">
+                                <i class="menu-icon glyphicon glyphicon-stats"></i>
+                                <span class="menu-text">Glyph Icons</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="typicon.html">
+                                <i class="menu-icon typcn typcn-location-outline"></i>
+                                <span class="menu-text"> Typicons</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="weather-icons.html">
+                                <i class="menu-icon wi wi-hot"></i>
+                                <span class="menu-text">Weather Icons</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </li>
+        
+        
+        
+        
+        
+
+        @*<li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text"> دوره ها</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+                <li>
+                    <a href="#" class="menu-dropdown">
+                        <span class="menu-text">
+                            مدیریت دوره ها
+                        </span>
+                        <i class="menu-expand"></i>
+                    </a>
+
+                    <ul class="submenu">
+                        <li>
+                            <a asp-area="Admin" asp-controller="Course" asp-action="CourseLevels">
+                                <i class="menu-icon fa fa-level-up"></i>
+                                <span class="menu-text"> سطوح دوره</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Course" asp-action="CourseStatuses">
+                                <i class="menu-icon glyphicon glyphicon-stats"></i>
+                                <span class="menu-text">وضعیت دوره</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Course" asp-action="CourseGroups">
+                                <i class="menu-icon glyphicon glyphicon-collapse-up"></i>
+                                <span class="menu-text">گروه دوره</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area="Admin" asp-controller="Course" asp-action="Courses">
+                                <i class="menu-icon glyphicon glyphicon-stats"></i>
+                                <span class="menu-text"> دوره</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+            </ul>
+        </li>*@
+@*
+<li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-book"></i>
+                <span class="menu-text"> محصولات</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+                <li>
+                    <a asp-area="Admin" asp-controller="ProductCategory" asp-action="ProductCategory">
+                        <i class="menu-icon fa fa-level-up"></i>
+                        <span class="menu-text"> دسته بندی محصولات</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Brand" asp-action="Index">
+                        <i class="menu-icon fa fa-level-up"></i>
+                        <span class="menu-text"> مدیریت برندها</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Index">
+                        <i class="menu-icon fa fa-level-up"></i>
+                        <span class="menu-text"> مدیریت محصولات</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="AttributeGroup" asp-action="AttributeGroups" asp-route-Type="@DBNull.Value" asp-route-Id="@DBNull.Value" asp-route-Name="" asp-route-CatId="@DBNull.Value" asp-route-CatName="" asp-route-PCName="" asp-route-PCId="@DBNull.Value">
+                        <i class="menu-icon fa fa-level-up"></i>
+                        <span class="menu-text">ویژگی ها</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-info"></i>
+                <span class="menu-text"> پست مطالب</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="BlogPost" asp-action="BlogCategory">
+                        <i class="menu-icon glyphicon glyphicon-phone"></i>
+                        <span class="menu-text">دسته بندی پست مطالب</span>
+                    </a>
+
+
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="BlogPost" asp-action="BlogPost">
+                        <i class="menu-icon glyphicon glyphicon-phone"></i>
+                        <span class="menu-text">مدیریت پست مطالب</span>
+                    </a>
+
+
+                </li>
+
+
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-info"></i>
+                <span class="menu-text"> گزارشات</span>
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+                <li>
+                    <a asp-area="Admin" asp-controller="Site" asp-action="Contactuslist">
+                        <i class="menu-icon glyphicon glyphicon-phone"></i>
+                        <span class="menu-text"> اطلاعات تماس با ما</span>
+                    </a>
+
+
+                </li>
+
+
+            </ul>
+        </li> *@
+
+        <!--Tables-->
+        <!--<li>
+        <a href="#" class="menu-dropdown">
+            <i class="menu-icon fa fa-table"></i>
+            <span class="menu-text"> جداول </span>
+
+            <i class="menu-expand"></i>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <a href="tables-simple.html">
+                    <span class="menu-text">ساده و انعطاف پذیر</span>
+                </a>
+            </li>
+            <li>
+                <a href="tables-data.html">
+                    <span class="menu-text">جداول داده ها</span>
+                </a>
+            </li>
+        </ul>
+    </li>-->
+        <!--Forms-->
+        <!--<li>
+        <a href="#" class="menu-dropdown">
+            <i class="menu-icon fa fa-pencil-square-o"></i>
+            <span class="menu-text"> فرم ها </span>
+
+            <i class="menu-expand"></i>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <a href="form-layouts.html">
+                    <span class="menu-text">چینش فرم ها</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="form-inputs.html">
+                    <span class="menu-text">Form Inputs</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="form-pickers.html">
+                    <span class="menu-text">Data Pickers</span>
+                </a>
+            </li>
+            <li>
+                <a href="form-wizard.html">
+                    <span class="menu-text">Wizard</span>
+                </a>
+            </li>
+            <li>
+                <a href="form-validation.html">
+                    <span class="menu-text">اعتبارسنجی</span>
+                </a>
+            </li>
+            <li>
+                <a href="form-editors.html">
+                    <span class="menu-text">ویرایشگرها</span>
+                </a>
+            </li>
+            <li>
+                <a href="form-inputmask.html">
+                    <span class="menu-text">مسک</span>
+                </a>
+            </li>
+        </ul>
+    </li>-->
+        <!--Charts-->
+        <!--<li>
+        <a href="#" class="menu-dropdown">
+            <i class="menu-icon fa fa-bar-chart-o"></i>
+            <span class="menu-text"> نمودارها </span>
+
+            <i class="menu-expand"></i>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <a href="flot.html">
+                    <span class="menu-text">نمودار فلوت</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="morris.html">
+                    <span class="menu-text">نمودار موریس</span>
+                </a>
+            </li>
+            <li>
+                <a href="sparkline.html">
+                    <span class="menu-text">Sparkline Charts</span>
+                </a>
+            </li>
+            <li>
+                <a href="easypiecharts.html">
+                    <span class="menu-text">نمودار ایزی پای</span>
+                </a>
+            </li>
+            <li>
+                <a href="chartjs.html">
+                    <span class="menu-text"> چارت جی اس</span>
+                </a>
+            </li>
+        </ul>
+    </li>-->
+        <!--Profile-->
+        <!--<li>
+        <a href="profile.html">
+            <i class="menu-icon fa fa-picture-o"></i>
+            <span class="menu-text">پروفایل</span>
+        </a>
+    </li>-->
+        <!--Mail-->
+        <!--<li>
+        <a href="#" class="menu-dropdown">
+            <i class="menu-icon fa fa-envelope-o"></i>
+            <span class="menu-text"> ایمیل </span>
+
+            <i class="menu-expand"></i>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <a href="inbox.html">
+                    <span class="menu-text">اینباکس</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="message-view.html">
+                    <span class="menu-text">مشاهده ایمیل</span>
+                </a>
+            </li>
+            <li>
+                <a href="message-compose.html">
+                    <span class="menu-text">ایجاد ایمیل</span>
+                </a>
+            </li>
+        </ul>
+    </li>-->
+        <!--Calendar-->
+        <!--<li>
+        <a href="calendar.html">
+            <i class="menu-icon fa fa-calendar"></i>
+            <span class="menu-text">
+                تقویم
+            </span>
+        </a>
+    </li>-->
+        <!--Pages-->
+        <!--<li>
+        <a href="#" class="menu-dropdown">
+            <i class="menu-icon glyphicon glyphicon-paperclip"></i>
+            <span class="menu-text"> صفحات </span>
+
+            <i class="menu-expand"></i>
+        </a>
+        <ul class="submenu">
+            <li>
+                <a href="timeline.html">
+                    <span class="menu-text">جدول زمانی</span>
+                </a>
+            </li>
+            <li>
+                <a href="pricing.html">
+                    <span class="menu-text">جدول قیمت گذاری</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="invoice.html">
+                    <span class="menu-text">صورت حساب</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="login.html">
+                    <span class="menu-text">ورود به سیستم</span>
+                </a>
+            </li>
+            <li>
+                <a href="register.html">
+                    <span class="menu-text">ثبت نام</span>
+                </a>
+            </li>
+            <li>
+                <a href="lock.html">
+                    <span class="menu-text">صفحه قفل</span>
+                </a>
+            </li>
+            <li>
+                <a href="typography.html">
+                    <span class="menu-text"> تایپوگرافی </span>
+                </a>
+            </li>
+        </ul>
+    </li>-->
+        <!--More Pages-->
+        <!--<li>
+        <a href="#" class="menu-dropdown">
+            <i class="menu-icon glyphicon glyphicon-link"></i>
+
+            <span class="menu-text">
+                دیگر صفحات
+            </span>
+
+            <i class="menu-expand"></i>
+        </a>
+
+        <ul class="submenu">
+            <li>
+                <a href="error-404.html">
+                    <span class="menu-text">خطای 404</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="error-500.html">
+                    <span class="menu-text">خطای 500</span>
+                </a>
+            </li>
+            <li>
+                <a href="blank.html">
+                    <span class="menu-text">صفحه خالی</span>
+                </a>
+            </li>
+            <li>
+                <a href="grid.html">
+                    <span class="menu-text"> گرید</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-dropdown">
+                    <span class="menu-text">
+                        منوی چند سطحی
+                    </span>
+                    <i class="menu-expand"></i>
+                </a>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="#">
+                            <i class="menu-icon fa fa-camera"></i>
+                            <span class="menu-text">سطح سوم</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-asterisk"></i>
+
+                            <span class="menu-text">
+                                سطح چهارم
+                            </span>
+                            <i class="menu-expand"></i>
+                        </a>
+
+                        <ul class="submenu">
+                            <li>
+                                <a href="#">
+                                    <i class="menu-icon fa fa-bolt"></i>
+                                    <span class="menu-text">یک آیتم</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#">
+                                    <i class="menu-icon fa fa-bug"></i>
+                                    <span class="menu-text">آیتمی دیگر</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>-->
+        <!--Right to Left-->
+        <!--<li class="active open">
+        <a href="#" class="menu-dropdown">
+            <i class="menu-icon fa fa-align-right"></i>
+            <span class="menu-text"> راست به چپ </span>
+
+            <i class="menu-expand"></i>
+        </a>
+        <ul class="submenu">
+            <li>
+                <a href="index.html">
+                    <span class="menu-text">Back To English</span>
+                </a>
+            </li>
+            <li>
+                <a href="index-rtl-ar.html">
+                    <span class="menu-text">چینش عربی</span>
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="index-rtl-fa.html">
+                    <span class="menu-text">چینش فارسی</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="versions.html">
+            <i class="menu-icon glyphicon glyphicon-fire themesecondary"></i>
+            <span class="menu-text">
+                BeyondAdmin Versions
+            </span>
+        </a>
+    </li>-->
+    </ul>
+    <!-- /Sidebar Menu -->
+</div>
+<!-- /Page Sidebar -->

@@ -1,0 +1,515 @@
+﻿@model Mpj.DataLayer.DTOs.EmploymentForm.EducationalRecordsDTO
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Mpj.Application.Extensions
+@using Mpj.DataLayer.DTOs.EmploymentForm
+@using Mpj.DataLayer.Enums
+@using Mpj.DataLayer.InMemoryCache
+@inject IEducationalRecordMemoryCache _educationalRecordMemory;
+@inject IAuthorizationMemoryCache _AuthorizationMemory;
+@{
+    var modelStep = new ModelStepDTO() { Step = 5 };
+    var education = _educationalRecordMemory.Get("SaveEdu");
+    var EducationWithoutRemoveItem = new List<EducationalRecords>();
+    if (education != null)
+        EducationWithoutRemoveItem = education.Where(a => a.IsDelete == false).ToList();
+    int rowNumber = 1;
+    var authInfo = _AuthorizationMemory.Get("SaveAuthorization");
+
+    List<SelectListItem> YearList = new List<SelectListItem>();
+    @for (int j = 1300; j <= 1500; j++)
+    {
+        SelectListItem item = new SelectListItem();
+        item.Value = j.ToString();
+        item.Text = j.ToString();
+        YearList.Add(item);
+    }
+
+}
+@section styles
+{
+
+    <style>
+        .tab-content > .tab-pane {
+            display: block !important;
+        }
+
+    </style>
+}
+<partial name="_WizardStep" model="@modelStep" />
+<div class="col-lg-12 col-sm-12 col-xs-12">
+    <div class="widget">
+        <div class="widget-header bordered-bottom bordered-lightred">
+            <span class="widget-caption">
+                <h4 class="h5 mt10 text-danger ">سوابق تحصیلی</h4>
+            </span>
+        </div>
+        <div class="widget-body">
+            <div class="tab-pane border border-1 p-4" role="tabpanel" id="step5">
+
+                @if (EducationWithoutRemoveItem != null && EducationWithoutRemoveItem.Any())
+                {
+                    <table class="table table-striped table-responsive">
+                        <thead>
+                            <tr>
+                                <th scope="col">ردیف</th>
+                                <th scope="col">مدرک تحصیلی</th>
+                                <th scope="col">رشته تحصیلی</th>
+                                <th scope="col">استان محل تحصیل</th>
+                                <th scope="col">شهر محل تحصیل</th>
+                                <th scope="col">سال تحصیلی(شروع)</th>
+                                <th scope="col">سال تحصیلی(پایان)</th>
+                                <th scope="col">معدل</th>
+                                <th scope="col">مرکز آموزشی</th>
+                                <th scope="col">آخرین مدرک تحصیلی</th>
+                                <th scope="col">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var edu in EducationWithoutRemoveItem)
+                            {
+
+                                <tr id="ajax-url-item-@edu.Id">
+
+                                    <th scope="row">
+                                        @rowNumber
+                                    </th>
+                                    <td>
+                                        @edu.DegreeOfEducation.GetDisplayName()
+
+                                    </td>
+                                    <td>
+                                        @edu.FieldOfStudy
+                                    </td>
+
+                                    <td>
+                                        @edu.ProvinceOfPlaceOfStudy
+                                    </td>
+                                    <td>
+                                        @edu.CityOfPlaceOfStudy
+                                    </td>
+                                    <td>
+                                        @edu.YearOfStartingEducation
+                                    </td>
+                                    <td>
+                                        @edu.YearOfEndingEducation
+                                    </td>
+                                    <td>
+                                        @edu.Avg
+                                    </td>
+                                    <td>
+                                        @edu.CentralEducation
+                                    </td>
+                                    <td>
+                                        @if (edu.IsEndOfDegreeOfEducation)
+                                        {
+                                            <i class="fa-solid fa-check"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa-solid fa-close"></i>
+                                        }
+                                    </td>
+                                    <td style="width:7%;">
+                                        <a data-toggle="modal" class="btn btn-primary text-white fa fa-edit" data-target="#EditEducationalRecordModal" onclick="GetDetails('@edu.Id') " title="ویرایش"></a>
+                                        <a asp-area="" asp-controller="Home" asp-action="DeleteEducationalRecord" asp-route-Id="@edu.Id" ajax-url-allremove="0" ajax-url-button="@edu.Id" title="حذف" class="btn btn-danger btn-sm icon-only white"><i class="fa fa-times "></i></a>
+
+                                    </td>
+
+                                </tr>
+                                rowNumber++;
+
+                            }
+
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="row"></div>
+                    <partial name="_NoItemFound" />
+                }
+                @if (!(bool)authInfo.IsConfirmHumanResourceUnit)
+                {
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        افزودن سابقه تحصیلی
+                    </button>
+                }
+
+                <form role="form" asp-area="" asp-controller="Home" asp-action="AddEducationalRecord" method="post" class="login-box">
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">ثبت سوابق تحصیلی</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form" asp-area="" asp-controller="Home" asp-action="AddEducationalRecord" method="post" class="login-box">
+                                        <div class="row text-right">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="DegreeOfEducation" class="required" for="fDegreeOfEducation"></label>
+                                                    <select class="form-control" id="fDegreeOfEducation" asp-for="DegreeOfEducation" asp-items="@Html.GetEnumSelectList<DegreeOfEducation>()"> </select>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="FieldOfStudy" class="required" for="fFieldOfStudy"></label>
+                                                    <input type="text" asp-for="FieldOfStudy" id="fFieldOfStudy" class="form-control" />
+                                                    <span class="text-danger" asp-validation-for="FieldOfStudy"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="CentralEducation" class="required" for="fCentralEducation"></label>
+                                                    <input type="text" asp-for="CentralEducation" id="fCentralEducation" class="form-control" />
+                                                    <span class="text-danger" asp-validation-for="CentralEducation"></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row text-right">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="YearOfStartingEducation" class="required" for="fYearOfStartingEducation"></label>
+                                                    <select class="form-control" asp-for="YearOfStartingEducation" id="fYearOfStartingEducation" asp-items="@YearList"></select>
+                                                    <span class="text-danger" asp-validation-for="YearOfStartingEducation"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="YearOfEndingEducation" class="required" for="fYearOfEndingEducation"></label>
+                                                    <select class="form-control" asp-for="YearOfEndingEducation" id="fYearOfEndingEducation" asp-items="@YearList"></select>
+                                                    <span class="text-danger" asp-validation-for="YearOfEndingEducation"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="Avg" class="required" for="fAvg"></label>
+                                                    <input type="text" asp-for="Avg" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="fAvg" class="form-control" />
+                                                    <span class="text-danger" asp-validation-for="Avg"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row text-right">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label asp-for="ProvinceOfPlaceOfStudyId" class="required" for="fProvinceOfPlaceOfStudyId"></label>
+                                                    <select class="form-control" asp-for="ProvinceOfPlaceOfStudyId" id="fProvinceOfPlaceOfStudyId" asp-items="@Model.CascadingDto.States"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label asp-for="CityOfPlaceOfStudyId" class="required" for="fCityOfPlaceOfStudyId"></label>
+                                                    <select class="form-control" asp-for="CityOfPlaceOfStudyId" id="fCityOfPlaceOfStudyId" asp-items="@Model.CascadingDto.Cities"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-right">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-switch">
+                                                        <input type="checkbox" asp-for="IsEndOfDegreeOfEducation" class="custom-control-input" id="fIsEndOfDegreeOfEducation">
+                                                        <label class="custom-control-label" asp-for="IsEndOfDegreeOfEducation" for="fIsEndOfDegreeOfEducation"></label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                                    <button type="submit" class="btn btn-primary">ثبت سابقه تحصیلی</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+
+                <form role="form" asp-area="" asp-controller="Home" asp-action="EditEducationalRecord" method="post" class="login-box">
+                    <input type="hidden" id="fid" asp-for="Id" />
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="EditEducationalRecordModal" tabindex="-1" aria-labelledby="editexampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editexampleModalLabel">ویرایش سوابق تحصیلی</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @* <form role="form" asp-area="" asp-controller="Home" asp-action="AddEducationalRecord" method="post" class="login-box"> *@
+                                    <div class="row text-right">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="DegreeOfEducation" class="required" for="fDegreeOfEducationedit"></label>
+                                                <select class="form-control" id="fDegreeOfEducationedit" asp-for="DegreeOfEducation" asp-items="@Html.GetEnumSelectList<DegreeOfEducation>()"> </select>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="FieldOfStudy" class="required" for="fFieldOfStudyedit"></label>
+                                                <input type="text" asp-for="FieldOfStudy" id="fFieldOfStudyedit" class="form-control" />
+                                                <span class="text-danger" asp-validation-for="FieldOfStudy"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+
+                                                <label asp-for="CentralEducation" class="required" for="fCentralEducationedit"></label>
+                                                <input type="text" asp-for="CentralEducation" id="fCentralEducationedit" class="form-control" />
+                                                <span class="text-danger" asp-validation-for="CentralEducation"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row text-right">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="YearOfStartingEducation" class="required" for="fYearOfStartingEducationedit"></label>
+                                                <select class="form-control" asp-for="YearOfStartingEducation" id="fYearOfStartingEducationedit" asp-items="@YearList"></select>
+                                                <span class="text-danger" asp-validation-for="YearOfStartingEducation"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="YearOfEndingEducation" class="required" for="fYearOfEndingEducationedit"></label>
+                                                <select class="form-control" asp-for="YearOfEndingEducation" id="fYearOfEndingEducationedit" asp-items="@YearList"></select>
+                                                <span class="text-danger" asp-validation-for="YearOfEndingEducation"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="Avg" class="required" for="fAvgedit"></label>
+                                                <input type="text" asp-for="Avg" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="fAvgedit" class="form-control" />
+                                                <span class="text-danger" asp-validation-for="Avg"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row text-right">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label asp-for="ProvinceOfPlaceOfStudyId" class="required" for="fProvinceOfPlaceOfStudyIdedit"></label>
+                                                <select class="form-control" asp-for="ProvinceOfPlaceOfStudyId" id="fProvinceOfPlaceOfStudyIdedit" asp-items="@Model.CascadingDto.States"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label asp-for="CityOfPlaceOfStudyId" class="required" for="fCityOfPlaceOfStudyIdedit"></label>
+                                                <select class="form-control" asp-for="CityOfPlaceOfStudyId" id="fCityOfPlaceOfStudyIdedit" asp-items="@Model.CascadingDto.Cities"></select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-right">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-switch">
+                                                    <input type="checkbox" asp-for="IsEndOfDegreeOfEducation" class="custom-control-input" id="feditIsEndOfDegreeOfEducation">
+                                                    <label class="custom-control-label" asp-for="IsEndOfDegreeOfEducation" for="feditIsEndOfDegreeOfEducation"></label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    @* </form> *@
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                                    <button type="submit" class="btn btn-primary">ویرایش سابقه تحصیلی</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </form>
+
+
+
+                <ul class="list-inline">
+
+                    <li>
+                        <a class="btn btn-dark prev-step" asp-action="AddSpecification"> قبلی</a>
+
+                    </li>
+                    <li>
+                        <form role="form" asp-area="" asp-controller="Home" asp-action="AddEducationalRecordFinal" method="post" class="login-box">
+                            <button type="submit" class="btn btn-danger next-step">بعدی</button>
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script type="text/javascript">
+        $(function () {
+            $("select").each(function () {
+                if ($(this).find("option").length <= 1) {
+                    $(this).attr("disabled", "disabled");
+                }
+            });
+
+            $("select").change(function () {
+                var value = 0;
+                let ItemName = $(this).attr('id');
+                if ($(this).val() != "") {
+                    value = $(this).val();
+                }
+                $.ajax({
+                    url: "/Home/GetCity/" + value,
+                    method: "Post",
+                }).done(function (response) {
+
+                    switch (ItemName) {
+                        case 'fProvinceOfPlaceOfStudyId':
+                            PopulateDropDown("#fCityOfPlaceOfStudyId", response.cities);
+                            break;
+                        case 'fProvinceOfPlaceOfStudyIdedit':
+                            PopulateDropDown("#fCityOfPlaceOfStudyIdedit", response.cities);
+                            break;
+                    }
+
+
+
+                }).fail(function () {
+                });
+            });
+            function DisableDropDown(dropDownId) {
+                $(dropDownId).attr("disabled", "disabled");
+                $(dropDownId).empty().append('<option selected="selected" value="0">Please select</option>');
+            }
+
+
+
+        });
+        function PopulateDropDown(dropDownId, list) {
+            $(dropDownId).empty();
+            if (list != null && list.length > 0) {
+                $.each(list, function (index, element) {
+                    $(dropDownId).append('<option  value="' + element.value + '">' + element.text + '</option>');
+
+                });
+
+            }
+        }
+    </script>
+    <script>
+        function ClearForm() {
+            $.ajax({
+                dataType: 'json',
+                type: "GET",
+                url: "/clear-educationalRecord",
+                data: {},
+                success: function (res) {
+                    var obj = res["cascadingDto"];
+                    //alert(res["id"]);
+                    document.getElementById("fid").value = res["id"]
+                    document.getElementById("fFieldOfStudy").value = res["fieldOfStudy"]
+                    document.getElementById("fCentralEducation").value = res["centralEducation"]
+                    document.getElementById("fAvg").value = res["avg"]
+                    document.getElementById("fid").value = res["id"]
+
+                    PopulateDropDown("#fCityOfPlaceOfStudyId", obj["cities"]);
+                    PopulateDropDown("#fProvinceOfPlaceOfStudyId", obj["states"]);
+                    //PopulateDropDown("#fYearOfStartingEducation", res);
+                    //alert(res["yearOfStartingEducation"]);
+                    setSelectedValueByVal(document.getElementById("fDegreeOfEducation"), res["degreeOfEducation"]);
+                    setSelectedValueByVal(document.getElementById("fProvinceOfPlaceOfStudyId"), res["provinceOfPlaceOfStudyId"]);
+                    setSelectedValueByVal(document.getElementById("fCityOfPlaceOfStudyId"), res["cityOfPlaceOfStudyId"]);
+                    setSelectedValue(document.getElementById("fYearOfStartingEducation"), res["yearOfStartingEducation"]);
+                    setSelectedValue(document.getElementById("fYearOfEndingEducation"), res["yearOfEndingEducation"]);
+
+                },
+
+
+            });
+        }
+        function GetDetails(id) {
+
+            var postData = {
+                'Id': id,
+            };
+            $.ajax({
+                dataType: 'json',
+                type: "GET",
+                url: "/Home/EditEducationalRecord",
+                data: postData,
+                success: function (res) {
+                    var obj = res["cascadingDto"];
+                    document.getElementById("fid").value = res["id"]
+                    document.getElementById("fFieldOfStudyedit").value = res["fieldOfStudy"]
+                    document.getElementById("fCentralEducationedit").value = res["centralEducation"]
+                    document.getElementById("fAvgedit").value = res["avg"]
+                    
+                    //document.getElementById("feditIsEndOfDegreeOfEducation").value = res["IsEndOfDegreeOfEducation"]
+                    var checkBox = document.getElementById("feditIsEndOfDegreeOfEducation");
+                    if (res["isEndOfDegreeOfEducation"])
+                        checkBox.checked = true;
+                    else
+                        checkBox.checked = false;
+
+
+                    PopulateDropDown("#fCityOfPlaceOfStudyIdedit", obj["cities"]);
+                    setSelectedValueByVal(document.getElementById("fDegreeOfEducationedit"), res["degreeOfEducation"]);
+                    setSelectedValueByVal(document.getElementById("fProvinceOfPlaceOfStudyIdedit"), res["provinceOfPlaceOfStudyId"]);
+                    setSelectedValueByVal(document.getElementById("fCityOfPlaceOfStudyIdedit"), res["cityOfPlaceOfStudyId"]);
+                    setSelectedValue(document.getElementById("fYearOfStartingEducationedit"), res["yearOfStartingEducation"]);
+                    setSelectedValue(document.getElementById("fYearOfEndingEducationedit"), res["yearOfEndingEducation"]);
+
+                },
+
+
+            });
+        }
+        function setSelectedValue(selectObj, valueToSet) {
+            for (var i = 0; i < selectObj.options.length; i++) {
+                if (selectObj.options[i].text == valueToSet) {
+                    selectObj.options[i].selected = true;
+                    return;
+                }
+            }
+        }
+        function setSelectedValueByVal(selectObj, valueToSet) {
+
+            for (var i = 0; i < selectObj.options.length; i++) {
+                if (selectObj.options[i].value == valueToSet) {
+                    selectObj.options[i].selected = true;
+                    return;
+                }
+            }
+        }
+
+    </script>
+}

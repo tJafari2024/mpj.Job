@@ -1,0 +1,52 @@
+@font-face {
+	font-family: "secondary-font";
+	src: url("yekan-400.eot");
+	src: url("yekan-400.eot?#iefix") format("embedded-opentype"),
+		url("yekan-400.woff2") format("woff2"), 
+		url("yekan-400.woff") format("woff"),
+		url("yekan-400.ttf") format("truetype");
+	font-weight: 800;
+}
+/*/*@font-face {
+	font-family: 'yekan-400';
+	src: url('yekan-400.eot') format('embedded-opentype');
+}*/
+/*@font-face {
+	font-family: "secondary-font";
+	src: url("../Fonts/iran-sans-300.eot");
+	src: url("../Fonts/iran-sans-300.eot?#iefix") format("embedded-opentype"),
+		 url("../Fonts/iran-sans-300.woff2") format("woff2"),
+		 url("../Fonts/iran-sans-300iran-sans-300.woff") format("woff"),
+		 url("../Fonts/iran-sans-300.ttf") format("truetype");
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: "secondary-font";
+	src: url("../Fonts/iran-sans-400.eot");
+	src: url("../Fonts/iran-sans-400.eot?#iefix") format("embedded-opentype"),
+		url("../Fonts/iran-sans-400.woff2") format("woff2"),
+		url("../Fonts/iran-sans-400.woff") format("woff"), 
+		url("../Fonts/iran-sans-400.ttf") format("truetype");
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: "secondary-font";
+	src: url("../Fonts/iran-sans-500.eot");
+	src: url("../Fonts/iran-sans-500.eot?#iefix") format("embedded-opentype"), 
+		url("../Fonts/iran-sans-500.woff2") format("woff2"), 
+		url("../Fonts/iran-sans-500.woff") format("woff"), 
+		url("../Fonts/iran-sans-500.ttf") format("truetype");
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: "secondary-font";
+	src: url("../Fonts/iran-sans-700.eot");
+	src: url("../Fonts/iran-sans-700.eot?#iefix") format("embedded-opentype"), 
+		url("../Fonts/iran-sans-700.woff2") format("woff2"),
+		url("../Fonts/iran-sans-700.woff") format("woff"),
+		url("../Fonts/iran-sans-700.ttf") format("truetype");
+	font-weight: 700;
+}*/

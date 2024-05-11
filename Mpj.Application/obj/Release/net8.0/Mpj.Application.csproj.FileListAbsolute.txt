@@ -1,0 +1,15 @@
+E:\mpjProjects\MPJSolution\Mpj.Application\bin\Release\net8.0\Mpj.Application.deps.json
+E:\mpjProjects\MPJSolution\Mpj.Application\bin\Release\net8.0\Mpj.Application.dll
+E:\mpjProjects\MPJSolution\Mpj.Application\bin\Release\net8.0\Mpj.Application.pdb
+E:\mpjProjects\MPJSolution\Mpj.Application\bin\Release\net8.0\Mpj.DataLayer.dll
+E:\mpjProjects\MPJSolution\Mpj.Application\bin\Release\net8.0\Mpj.DataLayer.pdb
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\Mpj.Application.csproj.AssemblyReference.cache
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\Mpj.Application.GeneratedMSBuildEditorConfig.editorconfig
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\Mpj.Application.AssemblyInfoInputs.cache
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\Mpj.Application.AssemblyInfo.cs
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\Mpj.Application.csproj.CoreCompileInputs.cache
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\Mpj.Application.csproj.CopyComplete
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\Mpj.Application.dll
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\refint\Mpj.Application.dll
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\Mpj.Application.pdb
+E:\mpjProjects\MPJSolution\Mpj.Application\obj\Release\net8.0\ref\Mpj.Application.dll

@@ -1,0 +1,221 @@
+﻿@using Mpj.DataLayer.DTOs.EmploymentForm
+@using Mpj.DataLayer.Enums
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model SupplementaryInfoStepDTO
+@{
+    var modelStep = new ModelStepDTO() { Step = 10 };
+    var index = Model.Selected;
+}
+<link rel="stylesheet" type="text/css" href="~/lib/persianDatepicker-master/css/persianDatepicker-default.css">
+<link href="~/css/select2/select2.css" rel="stylesheet" />
+<style>
+    .tab-content > .tab-pane {
+        display: block !important;
+    }
+
+    .selectbox {
+        position: relative;
+    }
+
+        .selectbox::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            margin-top: -6px;
+            right: .7rem;
+            width: 0;
+            height: 0;
+            border: solid black;
+            border-width: 0 1px 1px 0;
+            display: inline-block;
+            padding: 3px;
+            transform: rotate(45deg);
+        }
+
+    select {
+        border: 1px solid #EEE;
+        border-radius: .25rem;
+        padding: .5rem 1.5rem .5rem .5rem;
+        display: flex;
+        background-color: white;
+        outline: 0;
+        cursor: pointer;
+        appearance: none;
+    }
+
+    .multi-list {
+        float: left;
+        padding-right: 50px;
+    }
+
+    .clear {
+        clear: both;
+    }
+</style>
+
+@{
+    var fName = "fName" + @index;
+    var fFamily = "fFamily" + @index;
+    var fGender = "fGender" + @index;
+    var fFatherName = "fFatherName" + @index;
+    var fBrithDate = "fBrithDate" + @index;
+    var fNationCode = "fNationCode" + @index;
+    var fBirthCertificateId = "fBirthCertificateId" + @index;
+    var fRelation = "fRelation" + @index;
+    var fIsCovered = "fIsCovered" + @index;
+    var fSerialInsurance = "fSerialInsurance" + @index;
+    var fBasicInsurance = "fBasicInsurance" + @index;
+
+}
+@if (Model.SponsershipDto.Any())
+{
+    <input type="hidden" value="@Model.Authorization.EmploymentId" asp-for="@Model.SponsershipDto[index].EmploymentId" />
+    <div class="row text-right">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <label asp-for="@Model.SponsershipDto[index].Name" class="required" for="@fName"></label>
+                <input type="text" foc onkeypress="return /[آ-ی\s]/i.test(event.key)" asp-for="@Model.SponsershipDto[index].Name" id="@fName" class="form-control" />
+                <span class="text-danger" asp-validation-for="@Model.SponsershipDto[index].Name"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].Family" class="required" class="required" for="@fFamily"></label>
+                <input type="text" onkeypress="return /[آ-ی\s]/i.test(event.key)" asp-for="@Model.SponsershipDto[index].Family" id="@fFamily" class="form-control" />
+                <span class="text-danger" asp-validation-for="@Model.SponsershipDto[index].Family"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row text-right">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <label asp-for="@Model.SponsershipDto[index].Gender" class="required" for="@fGender"></label>
+                <div class="custom-select-general">
+                    <select id="@fGender" asp-for="@Model.SponsershipDto[index].Gender" asp-items="Html.GetEnumSelectList<Gender>()"> </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].FatherName" class="required" for="@fFatherName"></label>
+                <input type="text" onkeypress="return /[آ-ی\s]/i.test(event.key)" class="form-control" id="@fFatherName" asp-for="@Model.SponsershipDto[index].FatherName">
+                <span class="text-danger" asp-validation-for="@Model.SponsershipDto[index].FatherName"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row text-right">
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <label asp-for="@Model.SponsershipDto[index].BrithDate" class="required" for="@fBrithDate"></label>
+                <input type="text" class="form-control" id="@fBrithDate" asp-for="@Model.SponsershipDto[index].BrithDate">
+                <span class="text-danger" asp-validation-for="@Model.SponsershipDto[index].BrithDate"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].NationCode" class="required" for="@fNationCode"></label>
+                <input type="text" class="form-control" id="@fNationCode" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="@Model.SponsershipDto[index].NationCode">
+                <span class="text-danger" asp-validation-for="@Model.SponsershipDto[index].NationCode"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row text-right">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].BirthCertificateId" class="required" for="@fBirthCertificateId"> </label>
+                <input type="text" maxlength="10" class="form-control" id="@fBirthCertificateId" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="@Model.SponsershipDto[index].BirthCertificateId">
+                <span class="text-danger" asp-validation-for="@Model.SponsershipDto[index].BirthCertificateId"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].MaritalStatus" class="required" for="fMaritalStatus"></label>
+                @if (Model.IsChild)
+                {
+                    <div id="MaritalStatus" class="custom-select2 fMaritalStatus" onclick="ChangeMaritalStatus(this)">
+                        <select id="fMaritalStatus" asp-for="@Model.SponsershipDto[index].MaritalStatus" asp-items="Html.GetEnumSelectList<MaritalStatus>()"> </select>
+                    </div>
+                }
+                else
+                {
+                    <div id="MaritalStatus" class="custom-select2 fMaritalStatus" onclick="ChangeMaritalStatus(this)">
+                        <select id="fMaritalStatus" asp-for="@Model.SponsershipDto[index].MaritalStatus" asp-items="Html.GetEnumSelectList<MaritalStatus>().OrderBy(t => t.Text)"> </select>
+                    </div>
+                }
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row text-right">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].ProvinceId" class="required" for="fProvinceId"></label>
+                <div id="ProvinceId" class="custom-select2 fProvinceId">
+                    <select asp-for="@Model.SponsershipDto[index].ProvinceId" id="fProvinceId" asp-items="@Model.CascadingDto.States"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].ProvinceOfIssueId" class="required" for="fProvinceOfIssueId"></label>
+                <div class="custom-select2 fProvinceOfIssueId">
+                    <select class="form-control" asp-for="@Model.SponsershipDto[index].ProvinceOfIssueId" id="fProvinceOfIssueId" asp-items="@Model.CascadingDto.States"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row text-right">
+        <div class="col-md-6">
+
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].Relation" for="@fRelation"></label>
+                <div class="custom-select-general">
+                    @if (Model.IsChild)
+                    {
+                        <select class="form-control" asp-for="@Model.SponsershipDto[index].Relation" id="@fRelation" asp-items="Html.GetEnumSelectList<Relation>().OrderBy(t=>t.Text)">></select>
+
+                    }
+                    else
+                    {
+                        <select class="form-control" asp-for="@Model.SponsershipDto[index].Relation" id="@fRelation" asp-items="Html.GetEnumSelectList<Relation>()">></select>
+
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].SerialInsurance" class="required" for="@fSerialInsurance"></label>
+                <input class="form-control" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="@Model.SponsershipDto[index].SerialInsurance" id="@fSerialInsurance">
+                <span class="text-danger" asp-validation-for="@Model.SponsershipDto[index].SerialInsurance"></span>
+            </div>
+        </div>
+
+    </div>
+    <div class="row text-right">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.SponsershipDto[index].BasicInsurance" for="@fBasicInsurance"></label>
+                <div class="custom-select-general">
+                    <select class="form-control" asp-for="@Model.SponsershipDto[index].BasicInsurance" id="@fBasicInsurance" asp-items="Html.GetEnumSelectList<BasicInsurance>()">></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" checked asp-for="@Model.SponsershipDto[index].IsCovered" onclick="IsCoveredGlasseschange(this)" class="custom-control-input" id="@fIsCovered">
+                    <label asp-for="@Model.SponsershipDto[index].IsCovered" class="custom-control-label" for="@fIsCovered"></label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+        </div>
+    </div>
+
+}
